@@ -10,6 +10,7 @@ const CHANGE_EVENT = "dcn-session-store";
 
 export function saveSessionToken(sessionId: string, token: string): void {
   sessionStorage.setItem(key(sessionId), token);
+  window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
 const noopSubscribe = () => () => {};
@@ -32,9 +33,33 @@ function subscribeChanges(callback: () => void) {
  * The last revision this tab saw confirmed. UI memory only (not authoritative): used to
  * tell the patient and doctor that an earlier confirmation no longer applies.
  */
-export function rememberConfirmedRevision(sessionId: string, revision: number): void {
+export function rememberConfirmedRevision(
+  sessionId: string,
+  revision: number,
+): void {
   sessionStorage.setItem(confirmedKey(sessionId), String(revision));
   window.dispatchEvent(new Event(CHANGE_EVENT));
+}
+
+export function useTabSessionIds(): string[] {
+  const encoded = useSyncExternalStore(
+    subscribeChanges,
+    () => {
+      const prefix = "dcn.session-token.";
+      return JSON.stringify(
+        Object.keys(sessionStorage)
+          .filter((item) => item.startsWith(prefix))
+          .map((item) => item.slice(prefix.length))
+          .sort(),
+      );
+    },
+    () => "[]",
+  );
+  return JSON.parse(encoded) as string[];
+}
+
+export function readSessionToken(sessionId: string): string | null {
+  return sessionStorage.getItem(key(sessionId));
 }
 
 export function useLastConfirmedRevision(sessionId: string): number | null {

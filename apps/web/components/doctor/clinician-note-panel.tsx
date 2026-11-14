@@ -1,14 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
-
-import { Notice, Panel, StatusChip } from "@/components/status";
+import { Notice } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ApiRequestError, type ApiTransport, newRequestId } from "@/lib/api/client";
+import {
+  ApiRequestError,
+  type ApiTransport,
+  newRequestId,
+} from "@/lib/api/client";
 import type { ClinicianNote, SessionSnapshot } from "@/lib/api/types";
+import { statementHistory } from "@/lib/session/history";
 
 type Props = {
   api: ApiTransport;
@@ -16,125 +21,201 @@ type Props = {
   token: string;
   snapshot: SessionSnapshot;
   onSaved: (note: ClinicianNote) => void;
+  onBack?: () => void;
 };
 
-/**
- * Clinician assessment, stored through POST /clinician-notes as its own record with
- * an author label and the patient revision it was written against. It never edits,
- * adds to or summarises patient facts, and is never shown in the patient view.
- */
-export function ClinicianNotePanel({ api, sessionId, token, snapshot, onSaved }: Props) {
+/** Clinician notes are separate author-labelled records, never patient facts. */
+export function ClinicianNotePanel({
+  api,
+  sessionId,
+  token,
+  snapshot,
+  onSaved,
+  onBack,
+}: Props) {
   const [author, setAuthor] = useState("");
-  const [text, setText] = useState("");
+  const [assessment, setAssessment] = useState("");
+  const [nextSteps, setNextSteps] = useState("");
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<{ message: string; retryable: boolean } | null>(null);
-  const [savedId, setSavedId] = useState<string | null>(null);
-  // One request ID per draft: a retry after a timeout cannot save the same note twice.
+  const [error, setError] = useState<string | null>(null);
+  const [saved, setSaved] = useState<ClinicianNote | null>(null);
   const [requestId, setRequestId] = useState(newRequestId);
-  const unsaved = text.trim().length > 0;
+  const story = statementHistory(snapshot).find(
+    ({ current }) => !current.reply_to_question_id,
+  )?.current.text;
+  const unsaved = assessment.trim().length > 0 || nextSteps.trim().length > 0;
 
   async function save() {
-    if (!unsaved || !author.trim()) return;
+    if (saving || !assessment.trim() || !author.trim()) return;
     setSaving(true);
     setError(null);
     try {
       const note = await api.addClinicianNote(sessionId, token, {
         request_id: requestId,
         expected_revision: snapshot.revision,
-        note_text: text.trim(),
+        note_text: `Assessment\n${assessment.trim()}\n\nNext steps\n${nextSteps.trim() || "Not recorded."}`,
         author_label: author.trim(),
       });
       onSaved(note);
-      setSavedId(note.note_id);
-      setText("");
+      setSaved(note);
       setRequestId(newRequestId());
     } catch (e) {
       const err = e instanceof ApiRequestError ? e : null;
-      setError({
-        message:
-          err?.code === "REVISION_CONFLICT"
-            ? "The patient's statement changed. Reload the brief before saving a note against it."
-            : `${err?.message ?? "The note could not be saved."} Your text is still here.`,
-        retryable: err?.retryable ?? true,
-      });
+      setError(
+        err?.code === "REVISION_CONFLICT"
+          ? "The patient's statement changed. Return to the brief and refresh before saving."
+          : "The assessment could not be saved. Your text is still here; please retry.",
+      );
     } finally {
       setSaving(false);
     }
   }
 
   return (
-    <Panel title="Clinician assessment (separate from patient statements)" className="lg:col-span-12" testId="clinician-notes">
-      <p className="mb-4 text-sm text-muted-foreground">
-        Saved as a separate, author-labelled note against patient revision {snapshot.revision}. It never changes the patient&apos;s words,
-        facts or brief, and the patient does not see it. Fictional demo only.
-      </p>
-
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+    <section data-testid="clinician-notes">
+      <div className="px-7 py-3">
+        <button className="text-action" onClick={onBack}>
+          <ArrowLeft aria-hidden="true" />
+          Consultation brief
+        </button>
+      </div>
+      <div className="doctor-heading">
+        <h1 className="flex items-center gap-3">
+          {saved && <Check className="text-primary" aria-hidden="true" />}
+          {saved ? "Assessment saved" : "Record assessment"}
+        </h1>
+        <span className="font-mono text-xs">Intake {sessionId.slice(-8)}</span>
+      </div>
+      <div className="assessment-layout">
         <form
-          className="dcn-clipboard min-w-0 space-y-4"
-          aria-label="Record clinician assessment"
-          onSubmit={(e) => {
-            e.preventDefault();
+          id="assessment-form"
+          className="dcn-clipboard assessment-clipboard"
+          onSubmit={(event) => {
+            event.preventDefault();
             void save();
           }}
+          aria-label="Record clinician assessment"
         >
-          <h3 className="border-b pb-2 text-lg font-semibold">Record assessment</h3>
-          <div className="space-y-1">
-            <Label htmlFor="note-author">Author label</Label>
-            <Input id="note-author" value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="e.g. Demo clinician" className="h-11 text-base" />
+          <div>
+            <h2>Clinician assessment</h2>
+            {saved && (
+              <p className="text-sm text-muted-foreground">
+                Recorded by {saved.author_label}
+              </p>
+            )}
           </div>
-          <div className="space-y-1">
-            <Label htmlFor="note-text">Assessment note</Label>
-            <Textarea
-              id="note-text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              rows={4}
-              placeholder="Write your clinical assessment and next steps"
-              className="text-base"
-            />
-          </div>
-          <div className="flex flex-wrap items-center justify-end gap-3 border-t pt-3">
-            <span role="status" aria-live="polite">
-              {unsaved ? <StatusChip tone="warning">Unsaved note</StatusChip> : savedId ? <StatusChip tone="ok">Note saved</StatusChip> : null}
-            </span>
-            <Button type="submit" size="lg" className="h-11 px-5 text-base" disabled={saving || !unsaved || !author.trim()}>
-              {saving ? "Saving…" : "Save note"}
-            </Button>
-          </div>
-          {error && (
-            <Notice tone="error">
-              {error.message}
-              {error.retryable && (
-                <Button type="submit" variant="outline" size="sm" className="ml-2">
-                  Retry
-                </Button>
-              )}
-            </Notice>
+          {saved ? (
+            <>
+              <section className="saved-assessment-section">
+                <h3>Assessment</h3>
+                <p className="whitespace-pre-wrap">{assessment}</p>
+              </section>
+              <section className="saved-assessment-section">
+                <h3>Next steps</h3>
+                <p className="whitespace-pre-wrap">
+                  {nextSteps || "Not recorded."}
+                </p>
+              </section>
+            </>
+          ) : (
+            <>
+              <fieldset>
+                <label htmlFor="note-author">Clinician name</label>
+                <Input
+                  id="note-author"
+                  value={author}
+                  onChange={(event) => {
+                    setAuthor(event.target.value);
+                    setRequestId(newRequestId());
+                  }}
+                  placeholder="Name for this assessment"
+                  maxLength={100}
+                  required
+                  disabled={saving}
+                />
+              </fieldset>
+              <fieldset>
+                <label htmlFor="note-text">Assessment</label>
+                <Textarea
+                  id="note-text"
+                  value={assessment}
+                  onChange={(event) => {
+                    setAssessment(event.target.value);
+                    setRequestId(newRequestId());
+                  }}
+                  rows={4}
+                  placeholder="Write your clinical assessment"
+                  maxLength={6000}
+                  required
+                  disabled={saving}
+                />
+              </fieldset>
+              <fieldset>
+                <label htmlFor="note-next-steps">Next steps</label>
+                <Textarea
+                  id="note-next-steps"
+                  value={nextSteps}
+                  onChange={(event) => {
+                    setNextSteps(event.target.value);
+                    setRequestId(newRequestId());
+                  }}
+                  rows={3}
+                  placeholder="Record your plan or follow-up"
+                  maxLength={3000}
+                  disabled={saving}
+                />
+              </fieldset>
+            </>
           )}
         </form>
-
-        <section className="min-w-0 overflow-hidden rounded-sm border self-start" aria-labelledby="saved-notes-heading">
-          <h3 id="saved-notes-heading" className="dcn-band">
-            Saved assessments
-          </h3>
-          {snapshot.clinician_notes.length === 0 ? (
-            <p className="px-3 py-2 text-sm text-muted-foreground">No assessment saved for this encounter yet.</p>
+        <aside className="patient-context">
+          <h2>Patient context</h2>
+          <blockquote>{story ?? "No patient statement."}</blockquote>
+          <h3>To clarify</h3>
+          {snapshot.brief?.doctor_clarifications.length ? (
+            snapshot.brief.doctor_clarifications.map((item, i) => (
+              <p key={i} className="mb-3">
+                {item.text}
+              </p>
+            ))
           ) : (
-            <ul className="divide-y" data-testid="saved-notes">
-              {snapshot.clinician_notes.map((n) => (
-                <li key={n.note_id} className="px-3 py-2">
-                  <p className="whitespace-pre-wrap">{n.note_text}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {n.author_label} · patient revision {n.patient_revision} · {new Date(n.created_at).toLocaleString()}
-                    {n.patient_revision !== snapshot.revision && " · written against an earlier revision"}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            <p>No additional clarifications recorded.</p>
           )}
-        </section>
+          <p className="mt-8 text-xs text-muted-foreground">
+            This assessment is kept separate from the patient&apos;s words and
+            is linked to revision {snapshot.revision}.
+          </p>
+        </aside>
       </div>
-    </Panel>
+      {error && (
+        <div className="feedback-area">
+          <Notice tone="error">{error}</Notice>
+        </div>
+      )}
+      <div className="workflow-actions">
+        <p className="text-xs text-muted-foreground" role="status">
+          {saved
+            ? "Assessment saved to this encounter."
+            : unsaved
+              ? "Unsaved changes. Save your assessment before leaving."
+              : "Only the clinician records the assessment."}
+        </p>
+        {saved ? (
+          <Link className="action-link primary-action" href="/doctor">
+            Back to patient intakes <ArrowRight aria-hidden="true" />
+          </Link>
+        ) : (
+          <Button
+            type="submit"
+            form="assessment-form"
+            size="lg"
+            disabled={saving || !assessment.trim() || !author.trim()}
+          >
+            {saving ? "Saving…" : "Save assessment"}
+            <ArrowRight data-icon="inline-end" />
+          </Button>
+        )}
+      </div>
+    </section>
   );
 }

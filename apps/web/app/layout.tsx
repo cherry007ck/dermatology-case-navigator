@@ -1,19 +1,30 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { AppHeader } from "@/components/app-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Dermatology Case Navigator — fictional demo",
+  title: "Exasol.sh — Every story deserves a closer look",
   description:
-    "Consultation preparation and evidence navigation prototype for fictional encounters. No diagnosis or treatment advice.",
+    "Share your skin concern, review your story, and prepare for a more informed consultation. A dermatology consultation-preparation prototype, not a diagnostic service.",
+};
+export const viewport: Viewport = {
+  themeColor: "#f7f8fa",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="flex min-h-full flex-col">
-        <div className="flex-1">{children}</div>
-        <footer className="border-t bg-card px-4 py-3 text-sm text-muted-foreground">
-          Double Helix team · Hackathon prototype for fictional encounters only. Not an Exasol product.
+      <body>
+        <div className="app-frame">
+          <AppHeader />
+          <div className="app-content">{children}</div>
+        </div>
+        <footer className="app-footer">
+          <span>
+            Consultation preparation. Clinical decisions stay with the doctor.
+          </span>
+          <span>Fictional encounters only · Not an Exasol product</span>
         </footer>
       </body>
     </html>
