@@ -1,7 +1,9 @@
-import { Stethoscope } from "lucide-react";
 import Image from "next/image";
 
-import { DoctorEntryButton, PatientEntryButton } from "@/components/home/home-entry-actions";
+import {
+  DoctorEntryButton,
+  PatientEntryButton,
+} from "@/components/home/home-entry-actions";
 
 // Homepage only. Every class here is local to this page, so the intake and doctor
 // screens keep their current look and behaviour.
@@ -14,7 +16,7 @@ import { DoctorEntryButton, PatientEntryButton } from "@/components/home/home-en
 
 // Hero artwork. To use the corrected PNG, place it in apps/web/public/home/ and
 // update these three values to its file name and pixel size.
-const HERO_SRC = "/home/stethoscope.svg";
+const HERO_SRC = "/home/stethoscope.png";
 const HERO_WIDTH = 640;
 const HERO_HEIGHT = 460;
 
@@ -22,7 +24,12 @@ const RULE = "border-[#d9dde2]";
 
 /** Small navy square on a grid line at the frame edge. Decorative. */
 function Marker({ className }: { className: string }) {
-  return <span aria-hidden="true" className={`absolute size-1.5 bg-[#1f4e8c] ${className}`} />;
+  return (
+    <span
+      aria-hidden="true"
+      className={`absolute size-1.5 bg-[#1f4e8c] ${className}`}
+    />
+  );
 }
 
 function EntryLabel({ children }: { children: React.ReactNode }) {
@@ -50,7 +57,10 @@ function Entry({
   className: string;
 }) {
   return (
-    <section aria-labelledby={id} className={`flex min-w-0 flex-col gap-4 p-6 sm:p-8 ${className}`}>
+    <section
+      aria-labelledby={id}
+      className={`flex min-w-0 flex-col gap-4 p-6 sm:p-8 ${className}`}
+    >
       <EntryLabel>{label}</EntryLabel>
       <h2
         id={id}
@@ -58,7 +68,9 @@ function Entry({
       >
         {title}
       </h2>
-      <p className="text-lg leading-snug break-words min-[72rem]:min-h-[2lh]">{text}</p>
+      <p className="text-lg leading-snug break-words min-[72rem]:min-h-[2lh]">
+        {text}
+      </p>
       <div className="pt-2">{action}</div>
     </section>
   );
@@ -66,22 +78,19 @@ function Entry({
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-[1280px] px-3 py-4 sm:px-6 sm:py-6" data-testid="home">
-      <div className={`relative border ${RULE} bg-[#f6f7f8] text-[#111418]`}>
-        <header className={`flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b ${RULE} px-4 py-3 sm:px-6 sm:py-4`}>
-          <div className="flex items-center gap-3">
-            <Stethoscope aria-hidden="true" className="size-7 shrink-0 text-[#1f4e8c]" strokeWidth={1.5} />
-            <span aria-hidden="true" className="h-6 w-px bg-[#c9ced4]" />
-            <span className="text-lg font-semibold">Exasol.sh</span>
-          </div>
-          <p className="font-mono text-xs tracking-[0.12em] uppercase sm:text-sm">Exasol hackathon project</p>
-        </header>
-
+    <main className="home-page" data-testid="home">
+      <div className="relative text-foreground">
         <div className="relative">
           {/* Four continuous column rules through the headline and the entry row (wide layout only). */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden min-[72rem]:block">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 hidden min-[72rem]:block"
+          >
             {["left-1/4", "left-1/2", "left-3/4"].map((pos) => (
-              <span key={pos} className={`absolute inset-y-0 w-px bg-[#d9dde2] ${pos}`} />
+              <span
+                key={pos}
+                className={`absolute inset-y-0 w-px bg-[#d9dde2] ${pos}`}
+              />
             ))}
           </div>
 

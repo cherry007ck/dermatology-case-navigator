@@ -1,114 +1,151 @@
 "use client";
 
+import { ArrowLeft, ArrowRight, Mic } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
+import { useRef, useState } from "react";
+import { IntakeSteps } from "@/components/patient/intake-steps";
+import { PhotoStatus } from "@/components/patient/photo-status";
+import { Waveform } from "@/components/voice/waveform";
+import { ModeBanner } from "@/components/mode-banner";
+import { Notice } from "@/components/status";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { ApiRequestError, getApiClient, newRequestId } from "@/lib/api/client";
-import type { Collection } from "@/lib/api/types";
+import type { CreateSessionResponse } from "@/lib/api/types";
 import { saveSessionToken } from "@/lib/session-store";
-
-import { Notice } from "./status";
 
 export function StartForm() {
   const router = useRouter();
   const api = getApiClient();
-  const [code, setCode] = useState("");
-  const [collections, setCollections] = useState<Collection[] | null>(null);
-  const [collectionId, setCollectionId] = useState("");
+  const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  async function loadCollections(event: React.FormEvent) {
-    event.preventDefault();
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await api.listCollections(code);
-      setCollections(res.collections);
-      setCollectionId(res.collections[0]?.collection_id ?? "");
-    } catch (e) {
-      setError(e instanceof ApiRequestError ? e.message : "Could not load collections.");
-    } finally {
-      setBusy(false);
-    }
-  }
+  const created = useRef<CreateSessionResponse | null>(null);
+  const requestId = useRef<string | null>(null);
 
   async function start() {
+    if (busy) return;
     setBusy(true);
     setError(null);
     try {
-      const res = await api.createSession(code, { request_id: newRequestId(), collection_id: collectionId });
-      saveSessionToken(res.session_id, res.session_token);
-      router.push(`/intake/${encodeURIComponent(res.session_id)}`);
+      if (!created.current) {
+        requestId.current ??= newRequestId();
+        if (api.mode === "mock") {
+          const { collections } = await api.listCollections("fixture-preview");
+          const collection =
+            collections.find((item) => item.mode === "published") ??
+            collections[0];
+          if (!collection) throw new Error("No case collection is available.");
+          created.current = await api.createSession("fixture-preview", {
+            request_id: requestId.current,
+            collection_id: collection.collection_id,
+          });
+        } else {
+          const response = await fetch("/api/intake-start", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ request_id: requestId.current }),
+          });
+          const data = await response.json();
+          if (!response.ok)
+            throw new Error(
+              data.error?.message ??
+                "Could not start intake. Please try again.",
+            );
+          created.current = data as CreateSessionResponse;
+        }
+      }
+      const session = created.current;
+      saveSessionToken(session.session_id, session.session_token);
+      // Pass only a transient draft through the router's in-memory handoff, never a URL or storage.
+      setIntakeDraft(session.session_id, text);
+      router.push(`/intake/${encodeURIComponent(session.session_id)}`);
     } catch (e) {
-      setError(e instanceof ApiRequestError ? e.message : "Could not start the intake.");
+      setError(
+        e instanceof ApiRequestError || e instanceof Error
+          ? e.message
+          : "Could not start the intake.",
+      );
       setBusy(false);
     }
   }
 
   return (
-    <div className="space-y-4">
-      <form onSubmit={loadCollections} className="flex flex-col gap-3 sm:flex-row sm:items-end">
-        <div className="flex-1 space-y-1">
-          <Label htmlFor="demo-code" className="text-base">
-            Demo access code
-          </Label>
-          <Input
-            id="demo-code"
-            type="password"
-            autoComplete="off"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="h-11 text-base"
-            required
+    <>
+      <IntakeSteps step={0} />
+      <div className="page-heading">
+        <h1>Tell us about your skin concern</h1>
+        <p>
+          Describe what you noticed, when it started, and anything you&apos;ve
+          tried.
+        </p>
+      </div>
+      <div className="story-entry corner-marks">
+        <section className="voice-intro" aria-label="Voice intake">
+          <Mic
+            className="microphone-icon"
+            strokeWidth={1.3}
+            aria-hidden="true"
           />
-        </div>
-        <Button type="submit" size="lg" variant="outline" className="h-11 px-4 text-base" disabled={busy || !code}>
-          Load collections
-        </Button>
-      </form>
-
-      {collections && collections.length === 0 && (
-        <Notice tone="warning">No collection is available on this server. Published evidence is not loaded.</Notice>
-      )}
-
-      {collections && collections.length > 0 && (
-        <fieldset className="space-y-2">
-          <legend className="text-base font-medium">Source collection</legend>
-          {collections.map((c) => (
-            <label key={c.collection_id} className="flex items-start gap-3 rounded-xl border bg-card p-3">
-              <input
-                type="radio"
-                name="collection"
-                className="mt-1 size-4 accent-[var(--primary)]"
-                value={c.collection_id}
-                checked={collectionId === c.collection_id}
-                onChange={() => setCollectionId(c.collection_id)}
-              />
-              <span>
-                <span className="font-medium">
-                  {c.mode === "synthetic" ? "Synthetic — fictional demonstration cases" : "Published — source-reviewed cases"}
-                </span>
-                <span className="block text-sm text-muted-foreground">
-                  {c.collection_id} · {c.case_count} cases ·{" "}
-                  {c.mode === "synthetic"
-                    ? `${c.source_review_count} fixture consistency checks`
-                    : `${c.source_review_count} developer source reviews`}{" "}
-                  · {c.clinical_reviewed ? "clinically reviewed" : "not clinically reviewed"}
-                </span>
-              </span>
-            </label>
-          ))}
-          <Button size="lg" className="h-11 px-5 text-base" onClick={start} disabled={busy || !collectionId}>
-            Start intake
+          <Waveform />
+          <p className="voice-caption">Your story. In your own words.</p>
+          <Button size="lg" variant="secondary" onClick={start} disabled={busy}>
+            Start voice intake
           </Button>
-        </fieldset>
+          <button
+            className="text-action"
+            onClick={() => document.getElementById("initial-story")?.focus()}
+          >
+            Type instead
+          </button>
+          <p className="voice-help">
+            Microphone access is requested only when voice is available and you
+            choose to record.
+          </p>
+        </section>
+        <section className="story-text">
+          <label htmlFor="initial-story">Your words</label>
+          <Textarea
+            id="initial-story"
+            placeholder="Tell us what has been happening…"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            maxLength={8000}
+            rows={6}
+            disabled={busy}
+          />
+          <PhotoStatus />
+        </section>
+      </div>
+      {error && (
+        <div className="feedback-area">
+          <Notice tone="error">{error}</Notice>
+        </div>
       )}
-
-      {error && <Notice tone="error">{error}</Notice>}
-    </div>
+      <div className="workflow-actions corner-marks">
+        <Link href="/" className="text-action">
+          <ArrowLeft aria-hidden="true" /> Back
+        </Link>
+        <Button size="lg" onClick={start} disabled={busy}>
+          {busy ? "Opening intake…" : "Continue"}
+          <ArrowRight data-icon="inline-end" />
+        </Button>
+      </div>
+      <div className="service-status">
+        <ModeBanner apiMode={api.mode} />
+      </div>
+    </>
   );
+}
+
+const drafts = new Map<string, string>();
+function setIntakeDraft(sessionId: string, text: string) {
+  drafts.set(sessionId, text);
+}
+export function getIntakeDraft(sessionId: string) {
+  return drafts.get(sessionId) ?? "";
+}
+export function clearIntakeDraft(sessionId: string) {
+  drafts.delete(sessionId);
 }

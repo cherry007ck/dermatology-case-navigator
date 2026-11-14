@@ -1,19 +1,31 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { Mic } from "lucide-react";
+import { Waveform } from "@/components/voice/waveform";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { VoiceIndicator } from "@/components/mode-banner";
 import { Notice } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { ApiRequestError } from "@/lib/api/transport";
-import { fetchVoiceAvailability, requestMicrophone, requestVoiceSession } from "@/lib/voice/start";
-import { appendUnique, type CapturedTurn, normalizeMessage } from "@/lib/voice/transcript";
+import {
+  fetchVoiceAvailability,
+  requestMicrophone,
+  requestVoiceSession,
+} from "@/lib/voice/start";
+import {
+  appendUnique,
+  type CapturedTurn,
+  normalizeMessage,
+} from "@/lib/voice/transcript";
 
 import type { ConversationEvent, VoiceControls } from "./voice-conversation";
 
 // The SDK (and its LiveKit dependency) loads only in the browser, and only when voice is available.
-const VoiceEngine = dynamic(() => import("./voice-conversation"), { ssr: false });
+const VoiceEngine = dynamic(() => import("./voice-conversation"), {
+  ssr: false,
+});
 
 export type VoiceState =
   | { kind: "checking" }
@@ -31,7 +43,12 @@ export type VoiceState =
 export function voiceIndicator(state: VoiceState): VoiceIndicator {
   switch (state.kind) {
     case "connected":
-      return { label: state.speaking ? "Voice connected — assistant speaking" : "Voice connected — listening", tone: "ok" };
+      return {
+        label: state.speaking
+          ? "Voice connected — assistant speaking"
+          : "Voice connected — listening",
+        tone: "ok",
+      };
     case "connecting":
     case "starting":
     case "requesting_mic":
@@ -75,7 +92,15 @@ type SyncStatus = "saving" | "saved" | "failed";
  * The SDK provider stays mounted for the panel's lifetime and sessions start from
  * the user's click. `captureAllowed={false}` (review) ends the session; unmounting does too.
  */
-export function VoicePanel({ sessionId, token, revision, onStateChange, persistTurn, captureAllowed = true, onSyncChange }: Props) {
+export function VoicePanel({
+  sessionId,
+  token,
+  revision,
+  onStateChange,
+  persistTurn,
+  captureAllowed = true,
+  onSyncChange,
+}: Props) {
   const [state, setState] = useState<VoiceState>({ kind: "checking" });
   const [captured, setCaptured] = useState<CapturedTurn[]>([]);
   const [sync, setSync] = useState<Record<string, SyncStatus>>({});
@@ -86,7 +111,9 @@ export function VoicePanel({ sessionId, token, revision, onStateChange, persistT
 
   useEffect(() => {
     let active = true;
-    fetchVoiceAvailability().then((ok) => active && setState({ kind: ok ? "idle" : "unavailable" }));
+    fetchVoiceAvailability().then(
+      (ok) => active && setState({ kind: ok ? "idle" : "unavailable" }),
+    );
     return () => {
       active = false;
     };
@@ -110,53 +137,81 @@ export function VoicePanel({ sessionId, token, revision, onStateChange, persistT
     try {
       const grant = await requestVoiceSession(sessionId, token, revision);
       if (!controls.current) {
-        return setState({ kind: "error", message: "Voice is still loading. Retry in a moment." });
+        return setState({
+          kind: "error",
+          message: "Voice is still loading. Retry in a moment.",
+        });
       }
       setState({ kind: "connecting" });
       controls.current.start(grant.signed_url, grant.binding_token);
     } catch (e) {
-      setState({ kind: "error", message: e instanceof ApiRequestError ? e.message : "Voice could not start." });
+      setState({
+        kind: "error",
+        message:
+          e instanceof ApiRequestError ? e.message : "Voice could not start.",
+      });
     }
   }
 
-  const onEvent = useCallback((event: ConversationEvent) => {
-    switch (event.type) {
-      case "connected":
-        setState({ kind: "connected", speaking: false });
-        break;
-      case "mode":
-        setState((prev) => (prev.kind === "connected" ? { ...prev, speaking: event.speaking } : prev));
-        break;
-      case "message": {
-        const turn = normalizeMessage(event.conversationId || "pending", event.payload);
-        if (!turn || seen.current.has(turn.turnId)) break;
-        seen.current.add(turn.turnId);
-        setCaptured((prev) => appendUnique(prev, turn));
-        setSync((prev) => ({ ...prev, [turn.turnId]: "saving" }));
-        persistTurn(turn).then(
-          () => setSync((prev) => ({ ...prev, [turn.turnId]: "saved" })),
-          () => setSync((prev) => ({ ...prev, [turn.turnId]: "failed" })),
-        );
-        break;
+  const onEvent = useCallback(
+    (event: ConversationEvent) => {
+      switch (event.type) {
+        case "connected":
+          setState({ kind: "connected", speaking: false });
+          break;
+        case "mode":
+          setState((prev) =>
+            prev.kind === "connected"
+              ? { ...prev, speaking: event.speaking }
+              : prev,
+          );
+          break;
+        case "message": {
+          const turn = normalizeMessage(
+            event.conversationId || "pending",
+            event.payload,
+          );
+          if (!turn || seen.current.has(turn.turnId)) break;
+          seen.current.add(turn.turnId);
+          setCaptured((prev) => appendUnique(prev, turn));
+          setSync((prev) => ({ ...prev, [turn.turnId]: "saving" }));
+          persistTurn(turn).then(
+            () => setSync((prev) => ({ ...prev, [turn.turnId]: "saved" })),
+            () => setSync((prev) => ({ ...prev, [turn.turnId]: "failed" })),
+          );
+          break;
+        }
+        case "disconnected":
+          setState((prev) => {
+            const code = event.closeCode
+              ? ` (close code ${event.closeCode})`
+              : "";
+            if (prev.kind === "connecting") {
+              // Closing before onConnect is never a normal stop.
+              return {
+                kind: "error",
+                message: `The voice connection closed before it opened${code}. Reconnect or keep typing.`,
+              };
+            }
+            if (event.reason === "error") {
+              return {
+                kind: "error",
+                message: `The voice connection closed unexpectedly${code}. Reconnect or keep typing.`,
+              };
+            }
+            return { kind: "ended" };
+          });
+          break;
+        case "error":
+          setState({
+            kind: "error",
+            message: "The voice connection reported an error.",
+          });
+          break;
       }
-      case "disconnected":
-        setState((prev) => {
-          const code = event.closeCode ? ` (close code ${event.closeCode})` : "";
-          if (prev.kind === "connecting") {
-            // Closing before onConnect is never a normal stop.
-            return { kind: "error", message: `The voice connection closed before it opened${code}. Reconnect or keep typing.` };
-          }
-          if (event.reason === "error") {
-            return { kind: "error", message: `The voice connection closed unexpectedly${code}. Reconnect or keep typing.` };
-          }
-          return { kind: "ended" };
-        });
-        break;
-      case "error":
-        setState({ kind: "error", message: "The voice connection reported an error." });
-        break;
-    }
-  }, [persistTurn]);
+    },
+    [persistTurn],
+  );
 
   function retryFailed() {
     for (const turn of captured) {
@@ -171,49 +226,86 @@ export function VoicePanel({ sessionId, token, revision, onStateChange, persistT
 
   const anyFailed = captured.some((t) => sync[t.turnId] === "failed");
   const anySaving = captured.some((t) => sync[t.turnId] === "saving");
-  useEffect(() => onSyncChange?.({ saving: anySaving, failed: anyFailed }), [anySaving, anyFailed, onSyncChange]);
+  useEffect(
+    () => onSyncChange?.({ saving: anySaving, failed: anyFailed }),
+    [anySaving, anyFailed, onSyncChange],
+  );
   const live = state.kind === "connecting" || state.kind === "connected";
   const busy = state.kind === "requesting_mic" || state.kind === "starting";
   const available = state.kind !== "checking" && state.kind !== "unavailable";
 
   return (
-    <section className="space-y-3 rounded-2xl border bg-card p-4 sm:p-6" aria-labelledby="voice-heading" data-testid="voice-panel">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 id="voice-heading" className="text-lg font-semibold">
+    <section
+      className="voice-capture"
+      aria-labelledby="voice-heading"
+      data-testid="voice-panel"
+    >
+      <Mic className="microphone-icon" strokeWidth={1.3} aria-hidden="true" />
+      <Waveform active={state.kind === "connected"} />
+      <div className="flex flex-col items-center gap-3">
+        <h2 id="voice-heading" className="sr-only">
           Speak instead
         </h2>
         {!live ? (
-          <Button size="lg" variant="outline" className="h-11 text-base" onClick={start} disabled={busy || !available || !captureAllowed}>
-            {state.kind === "ended" || state.kind === "error" || state.kind === "mic_denied" ? "Reconnect voice" : "Start voice"}
+          <Button
+            size="lg"
+            variant="outline"
+            className="h-11 text-base"
+            onClick={start}
+            disabled={busy || !available || !captureAllowed}
+          >
+            {state.kind === "ended" ||
+            state.kind === "error" ||
+            state.kind === "mic_denied"
+              ? "Reconnect voice"
+              : "Start voice"}
           </Button>
         ) : (
-          <Button size="lg" variant="outline" className="h-11 text-base" onClick={() => controls.current?.stop()}>
-            Stop voice
+          <Button
+            size="lg"
+            variant="outline"
+            className="h-11 text-base"
+            onClick={() => controls.current?.stop()}
+          >
+            Stop recording
           </Button>
         )}
       </div>
 
-      <p role="status" aria-live="polite" className="text-muted-foreground" data-testid="voice-status">
+      <p
+        role="status"
+        aria-live="polite"
+        className="text-muted-foreground"
+        data-testid="voice-status"
+      >
         {
           {
             checking: "Checking whether voice is available…",
-            unavailable: "Voice is not configured on this server. Typed intake is available.",
+            unavailable:
+              "Voice is not configured on this server. Typed intake is available.",
             idle: "Voice is optional. Your browser will ask for microphone access when you start.",
             requesting_mic: "Waiting for microphone permission…",
-            mic_denied: "Microphone access was denied. You can keep typing, or allow the microphone in your browser and reconnect.",
+            mic_denied:
+              "Microphone access was denied. You can keep typing, or allow the microphone in your browser and reconnect.",
             no_mic: "No usable microphone was found. You can keep typing.",
             starting: "Starting a private voice session…",
             connecting: "Connecting…",
-            connected: state.kind === "connected" && state.speaking ? "Assistant speaking" : "Listening",
+            connected:
+              state.kind === "connected" && state.speaking
+                ? "Assistant speaking"
+                : "Listening",
             ended: "Voice stopped. You can keep typing or reconnect.",
             error: "",
           }[state.kind]
         }
       </p>
-      {state.kind === "error" && <Notice tone="error">{state.message} Typed intake still works.</Notice>}
+      {state.kind === "error" && (
+        <Notice tone="error">{state.message} Typed intake still works.</Notice>
+      )}
       {!captureAllowed && available && (
         <p className="text-sm text-muted-foreground" data-testid="voice-paused">
-          Voice is paused while you review. Correct your statement below if anything is wrong.
+          Voice is paused while you review. Correct your statement below if
+          anything is wrong.
         </p>
       )}
 
@@ -221,9 +313,12 @@ export function VoicePanel({ sessionId, token, revision, onStateChange, persistT
 
       {captured.length > 0 && (
         <div className="space-y-2" data-testid="voice-transcript">
-          <p className="text-sm font-medium">Voice transcript — please review</p>
+          <p className="text-sm font-medium">
+            Voice transcript — please review
+          </p>
           <p className="text-sm text-muted-foreground">
-            Automatic transcription, not a recording. Your words are added to your story; check them before confirming.
+            Automatic transcription, not a recording. Your words are added to
+            your story; check them before confirming.
           </p>
           {anyFailed && (
             <Notice tone="error">
@@ -235,11 +330,24 @@ export function VoicePanel({ sessionId, token, revision, onStateChange, persistT
           )}
           <ol className="space-y-2">
             {captured.map((t) => (
-              <li key={t.turnId} className="rounded-xl border bg-background p-3" data-sync={sync[t.turnId]}>
-                <span className="text-sm text-muted-foreground">{t.role === "patient" ? "You (transcribed)" : "Assistant"}: </span>
+              <li
+                key={t.turnId}
+                className="rounded-xl border bg-background p-3"
+                data-sync={sync[t.turnId]}
+              >
+                <span className="text-sm text-muted-foreground">
+                  {t.role === "patient" ? "You (transcribed)" : "Assistant"}
+                  :{" "}
+                </span>
                 {t.text}
                 <span className="ml-2 text-xs text-muted-foreground">
-                  {{ saving: "· saving…", saved: "· saved", failed: "· not saved" }[sync[t.turnId] ?? "saving"]}
+                  {
+                    {
+                      saving: "· saving…",
+                      saved: "· saved",
+                      failed: "· not saved",
+                    }[sync[t.turnId] ?? "saving"]
+                  }
                 </span>
               </li>
             ))}
