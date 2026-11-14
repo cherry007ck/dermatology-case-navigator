@@ -1,0 +1,11 @@
+# Direct dependencies. Pinned transitive lock: requirements.txt
+fastapi==0.162.5
+uvicorn[standard]==0.54.0
+python-dotenv==1.2.4
+httpx==0.28.1
+pytest==9.2.0
+jsonschema==4.26.0
+# Exasol driver. A SaaS PAT is passed as password= (verified S0). Telemetry is disabled in app code.
+pyexasol==4.0.0
+# OpenAI-compatible client for Meta Model API candidate extraction (S2). base_url is set explicitly; key is server-only.
+openai==3.50.0

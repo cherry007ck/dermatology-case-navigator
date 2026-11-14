@@ -1,0 +1,53 @@
+[
+  {
+    "pmcid": "PMC7647841",
+    "xml": {
+      "artifact": "NCBI E-utilities efetch db=pmc id=7647841 (JATS XML)",
+      "sha256": "ad71c0d95349503eede884e5ffe2dcab6624c88819bdfb44dacf1fc35608d551",
+      "license_xlink_href": "http://creativecommons.org/licenses/by/3.0/",
+      "license_ali_ref": "https://creativecommons.org/licenses/by/3.0/",
+      "license_text": "This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.",
+      "used_for_passages": true
+    },
+    "publisher_pdf": {
+      "status": "not_retrieved",
+      "attempts": [
+        "PMC article PDF link returned an HTML 'Preparing to download' interstitial, not a PDF.",
+        "Europe PMC PDF render returned a browser challenge page.",
+        "Cureus article page (self-uri in the XML) returned HTTP 403 to a scripted request."
+      ]
+    },
+    "summary": {
+      "xml_licence": "CC BY 3.0",
+      "publisher_pdf_licence": null,
+      "discrepancy": false,
+      "unverified": true
+    }
+  },
+  {
+    "pmcid": "PMC7861115",
+    "xml": {
+      "artifact": "NCBI E-utilities efetch db=pmc id=7861115 (JATS XML)",
+      "sha256": "93569d27103c7114ee18fae5b1ac258c88142a1f1c6445a73f408736fa4a70d4",
+      "license_xlink_href": "http://creativecommons.org/licenses/by/3.0/",
+      "license_ali_ref": "https://creativecommons.org/licenses/by/3.0/",
+      "license_text": "This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.",
+      "used_for_passages": true
+    },
+    "publisher_pdf": {
+      "status": "retrieved",
+      "url": "https://assets.cureus.com/uploads/case_report/pdf/48654/1612453376-20210204-15914-p855nr.pdf",
+      "sha256": "0b89863247dc364462dfdc49a6ef1f58db35b368c70a5c343c5cfe81ae4d7d65",
+      "licence_statements": [
+        "This is an open access article distributed under the terms of the Creative Commons Attribution License CC-BY 4.0., which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited."
+      ],
+      "used_for_passages": false
+    },
+    "summary": {
+      "xml_licence": "CC BY 3.0",
+      "publisher_pdf_licence": "CC BY 4.0",
+      "discrepancy": true,
+      "unverified": false
+    }
+  }
+]

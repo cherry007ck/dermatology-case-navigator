@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "REVISION_CONFLICT",
+    "message": "Reload the current session.",
+    "retryable": false
+  },
+  "request_id": "00000000-0000-4000-8000-000000000001"
+}

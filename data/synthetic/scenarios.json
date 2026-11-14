@@ -1,0 +1,39 @@
+[
+  {
+    "scenario_id": "main",
+    "patient_turns": [
+      "My hands have been itchy for weeks. I tried a cream, but it didn't help.",
+      "I don't remember the name. I used it for a few days.",
+      "I started using a new hand soap before this began."
+    ],
+    "expected_ranks_by_advance": [
+      [
+        "SYN-A",
+        "SYN-B"
+      ],
+      [
+        "SYN-A",
+        "SYN-B"
+      ],
+      [
+        "SYN-A"
+      ]
+    ],
+    "expected_question_templates": [
+      "cream_details_v1",
+      "exposure_context_v1"
+    ],
+    "disclaimer": "Fictional workflow mechanics; no clinical validation."
+  },
+  {
+    "scenario_id": "no-match",
+    "patient_turns": [
+      "My scalp feels uncomfortable. I don't know when it began."
+    ],
+    "expected_ranks_by_advance": [
+      []
+    ],
+    "expected_no_match_reason": "no_comparable_cases",
+    "disclaimer": "The collection is limited; no general medical conclusion follows."
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "case_id": "PUB-PMC7647841-1",
+    "pmid": "33173645",
+    "pmcid": "PMC7647841",
+    "doi": "10.7759/cureus.10839",
+    "journal": "Cureus",
+    "year": "2020",
+    "article_type": "case-report",
+    "pmc_patients_uid": "7647841-1",
+    "patient_in_article": "The single patient of this case report (56-year-old man).",
+    "xml_sha256": "ad71c0d95349503eede884e5ffe2dcab6624c88819bdfb44dacf1fc35608d551",
+    "review_flags": [
+      "Licence: the PMC JATS XML that every passage comes from states CC BY 3.0, which is sufficient for this record. The publisher PDF could not be fetched without a browser challenge, so whether it prints a different CC BY version is unknown. No further PDF is required.",
+      "symptom=itching is a translation of the article's 'intensely pruritic'.",
+      "duration=days records onset of the presenting complaint 'a few days prior to his presentation' (the pruritic finger lesions; the forearm/leg rash 'during the same period').",
+      "Symptom–site associations (structured-v2 matches on these): rash@hands, rash@forearms and rash@legs come from the one sentence that lists the three sites for the rash. itching@fingers comes from 'intensely pruritic vesicular lesions ... bilateral fingers'. The article does not state itching of the hands, forearms or legs, so a patient reporting itchy hands is not matched to this case on itching.",
+      "site=forearms is kept raw; the patient vocabulary maps 'arm(s)' to 'arms', not 'forearms'.",
+      "Exposure/product history is not mentioned in the article and is therefore not recorded.",
+      "The article's clinical diagnosis sentence is intentionally not excerpted; the title names it.",
+      "Outcome is the authors' temporal report, not evidence that a specific action caused it."
+    ]
+  },
+  {
+    "case_id": "PUB-PMC7861115-1",
+    "pmid": "33564516",
+    "pmcid": "PMC7861115",
+    "doi": "10.7759/cureus.12510",
+    "journal": "Cureus",
+    "year": "2021",
+    "article_type": "case-report",
+    "pmc_patients_uid": "7861115-1",
+    "patient_in_article": "The single patient of this case report (27-year-old woman).",
+    "xml_sha256": "93569d27103c7114ee18fae5b1ac258c88142a1f1c6445a73f408736fa4a70d4",
+    "review_flags": [
+      "Licence version discrepancy (documented, not a blocker): the PMC JATS XML that every passage comes from (sha256 93569d27103c7114) states CC BY 3.0. The publisher PDF (sha256 0b89863247dc3644, not used for passages) states CC BY 4.0. The record carries the XML licence because the excerpts come from that artifact. Both versions are CC BY with the same attribution requirement. Remaining uncertainty: which version the publisher intends; this does not change what attribution the card must show.",
+      "symptom=itching is a translation of 'itchiness'; symptom=swelling is kept raw.",
+      "No duration feature: 'for two days' belongs to the facial swelling, not to the scalp itching. The current CaseFeature cannot link a duration to one symptom or site, so it is left out of ranking. The text stays visible in passage P1.",
+      "Symptom–site associations (structured-v2 matches on these): itching@scalp, pain@face and swelling@face. Itching is stated for the scalp only, so a patient reporting an itchy face is not matched to this case.",
+      "exposure=topical_minoxidil_foam is the documented raw exposure, deliberately NOT the 'new_product' gate value; the article describes a switch from spray to foam.",
+      "No outcome after the emergency treatment or the avoidance advice is reported in the case presentation."
+    ]
+  }
+]

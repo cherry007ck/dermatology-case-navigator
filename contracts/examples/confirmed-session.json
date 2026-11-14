@@ -1,0 +1,957 @@
+{
+  "session_id": "DEMO-SESSION",
+  "revision": 3,
+  "state": "confirmed",
+  "confirmed_revision": 3,
+  "turns": [
+    {
+      "turn_id": "DEMO-T1",
+      "role": "patient",
+      "origin": "typed",
+      "text": "My hands have been itchy for weeks. I tried a cream, but it didn't help.",
+      "reply_to_question_id": null,
+      "supersedes_turn_id": null,
+      "sequence": 1,
+      "created_at": "2026-11-13T12:01:00Z"
+    },
+    {
+      "turn_id": "DEMO-T2",
+      "role": "patient",
+      "origin": "typed",
+      "text": "I don't remember the name. I used it for a few days.",
+      "reply_to_question_id": "Q1",
+      "supersedes_turn_id": null,
+      "sequence": 2,
+      "created_at": "2026-11-13T12:02:00Z"
+    },
+    {
+      "turn_id": "DEMO-T3",
+      "role": "patient",
+      "origin": "typed",
+      "text": "I started using a new hand soap before this began.",
+      "reply_to_question_id": "Q2",
+      "supersedes_turn_id": null,
+      "sequence": 3,
+      "created_at": "2026-11-13T12:03:00Z"
+    }
+  ],
+  "facts": [
+    {
+      "fact_id": "F1",
+      "key": "site",
+      "value": "hands",
+      "status": "reported",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T1",
+          "quote": "hands"
+        }
+      ]
+    },
+    {
+      "fact_id": "F2",
+      "key": "symptom",
+      "value": "itching",
+      "status": "reported",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T1",
+          "quote": "itchy"
+        }
+      ]
+    },
+    {
+      "fact_id": "F3",
+      "key": "duration",
+      "value": "weeks",
+      "status": "reported",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T1",
+          "quote": "weeks"
+        }
+      ]
+    },
+    {
+      "fact_id": "F4",
+      "key": "prior_treatment_response",
+      "value": "no_improvement",
+      "status": "reported",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T1",
+          "quote": "didn't help"
+        }
+      ]
+    },
+    {
+      "fact_id": "F5",
+      "key": "prior_treatment_name",
+      "value": null,
+      "status": "unknown",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T2",
+          "quote": "don't remember the name"
+        }
+      ]
+    },
+    {
+      "fact_id": "F6",
+      "key": "prior_treatment_duration",
+      "value": "few_days",
+      "status": "reported",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T2",
+          "quote": "a few days"
+        }
+      ]
+    },
+    {
+      "fact_id": "F7",
+      "key": "exposure",
+      "value": "new_product",
+      "status": "reported",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T3",
+          "quote": "started using a new hand soap"
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "Q1",
+      "kind": "intake_gap",
+      "template_id": "cream_details_v1",
+      "text": "Do you know the cream's name and how long you used it?",
+      "status": "answered",
+      "evidence": [
+        {
+          "source_type": "patient_turn",
+          "source_id": "DEMO-T1",
+          "quote": "a cream"
+        }
+      ],
+      "reason": "A cream was reported without its name or duration of use.",
+      "comparison_basis": null,
+      "answer_turn_ids": [
+        "DEMO-T2"
+      ]
+    },
+    {
+      "question_id": "Q2",
+      "kind": "case_difference",
+      "template_id": "exposure_context_v1",
+      "text": "Before this started, did you notice any change in products, gloves, or activities involving your hands?",
+      "status": "answered",
+      "evidence": [],
+      "reason": "The two fictional eligible cases explicitly differ on new-product history; this is a mechanics demonstration, not a validated clinical question.",
+      "comparison_basis": {
+        "case_ids": [
+          "SYN-A",
+          "SYN-B"
+        ],
+        "contrasting_feature": "exposure",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-A-P1",
+            "quote": "starting a new hand soap"
+          },
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-B-P1",
+            "quote": "no new products"
+          }
+        ]
+      },
+      "answer_turn_ids": [
+        "DEMO-T3"
+      ]
+    }
+  ],
+  "search_history": [
+    {
+      "search_id": "SEARCH-1",
+      "patient_revision": 1,
+      "algorithm_version": "structured-v1",
+      "collection_version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+      "input_fact_ids": [
+        "F1",
+        "F2",
+        "F3",
+        "F4"
+      ],
+      "ranked_case_ids": [
+        "SYN-A",
+        "SYN-B"
+      ],
+      "cards": [
+        {
+          "case_id": "SYN-A",
+          "source_kind": "synthetic",
+          "title": "Fictional demonstration case — hand symptoms and a new product",
+          "article_url": null,
+          "shared_features": [
+            {
+              "text": "Shared reported site: hands.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "hands"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "hands"
+                }
+              ]
+            },
+            {
+              "text": "Shared reported symptom: itching.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "itchy"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "itching"
+                }
+              ]
+            }
+          ],
+          "important_differences": [
+            {
+              "text": "Patient product-change history is not yet known; this fictional case documents an explicit value.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "starting a new hand soap"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "text": "History was documented and a review arranged in the fictional encounter.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P2",
+                  "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+                }
+              ]
+            }
+          ],
+          "outcomes": [],
+          "passages": [
+            {
+              "passage_id": "SYN-A-P1",
+              "case_id": "SYN-A",
+              "text": "This fictional person reported itching on the hands for weeks. They reported starting a new hand soap before the symptoms began.",
+              "section": "Fictional narrative",
+              "locator": "team-authored fictional fixture/SYN-A-P1",
+              "sha256": "4341028c567b9cf32dad668404ad2d91f94eabd69ad343b2a26100064053f8be"
+            },
+            {
+              "passage_id": "SYN-A-P2",
+              "case_id": "SYN-A",
+              "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+              "section": "Fictional recorded action",
+              "locator": "team-authored fictional fixture/SYN-A-P2",
+              "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+            }
+          ],
+          "attribution": null
+        },
+        {
+          "case_id": "SYN-B",
+          "source_kind": "synthetic",
+          "title": "Fictional demonstration case — hand symptoms without a new product",
+          "article_url": null,
+          "shared_features": [
+            {
+              "text": "Shared reported site: hands.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "hands"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P1",
+                  "quote": "hands"
+                }
+              ]
+            },
+            {
+              "text": "Shared reported symptom: itching.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "itchy"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P1",
+                  "quote": "itching"
+                }
+              ]
+            }
+          ],
+          "important_differences": [
+            {
+              "text": "Patient product-change history is not yet known; this fictional case documents an explicit value.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P1",
+                  "quote": "no new products"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "text": "History was documented and a review arranged in the fictional encounter.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P2",
+                  "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+                }
+              ]
+            }
+          ],
+          "outcomes": [],
+          "passages": [
+            {
+              "passage_id": "SYN-B-P1",
+              "case_id": "SYN-B",
+              "text": "This fictional person reported itching on the hands for weeks. They explicitly reported no new products before the symptoms began.",
+              "section": "Fictional narrative",
+              "locator": "team-authored fictional fixture/SYN-B-P1",
+              "sha256": "823e0555d4006554bd8ea554d96a915a73c1bce539ddb93fcbabf25448e271da"
+            },
+            {
+              "passage_id": "SYN-B-P2",
+              "case_id": "SYN-B",
+              "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+              "section": "Fictional recorded action",
+              "locator": "team-authored fictional fixture/SYN-B-P2",
+              "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+            }
+          ],
+          "attribution": null
+        }
+      ],
+      "excluded_cases": [
+        {
+          "case_id": "SYN-C",
+          "reason": "site_conflict",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T1",
+              "quote": "hands"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-C-P1",
+              "quote": "scalp"
+            }
+          ]
+        }
+      ],
+      "score_components": [
+        {
+          "case_id": "SYN-A",
+          "shared_site": 3,
+          "shared_symptom": 3,
+          "shared_duration": 1,
+          "shared_exposure": 0,
+          "total": 7
+        },
+        {
+          "case_id": "SYN-B",
+          "shared_site": 3,
+          "shared_symptom": 3,
+          "shared_duration": 1,
+          "shared_exposure": 0,
+          "total": 7
+        }
+      ],
+      "changes": [
+        {
+          "case_id": "SYN-A",
+          "change": "appeared",
+          "from_rank": null,
+          "to_rank": 1,
+          "reason": "Shared explicit symptom and site; qualitative duration also matches.",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T1",
+              "quote": "hands"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-A-P1",
+              "quote": "hands"
+            }
+          ]
+        },
+        {
+          "case_id": "SYN-B",
+          "change": "appeared",
+          "from_rank": null,
+          "to_rank": 2,
+          "reason": "Shared explicit symptom and site; qualitative duration also matches.",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T1",
+              "quote": "hands"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-B-P1",
+              "quote": "hands"
+            }
+          ]
+        }
+      ],
+      "no_match_reason": null,
+      "created_at": "2026-11-13T12:01:30Z"
+    },
+    {
+      "search_id": "SEARCH-2",
+      "patient_revision": 2,
+      "algorithm_version": "structured-v1",
+      "collection_version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+      "input_fact_ids": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6"
+      ],
+      "ranked_case_ids": [
+        "SYN-A",
+        "SYN-B"
+      ],
+      "cards": [
+        {
+          "case_id": "SYN-A",
+          "source_kind": "synthetic",
+          "title": "Fictional demonstration case — hand symptoms and a new product",
+          "article_url": null,
+          "shared_features": [
+            {
+              "text": "Shared reported site: hands.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "hands"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "hands"
+                }
+              ]
+            },
+            {
+              "text": "Shared reported symptom: itching.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "itchy"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "itching"
+                }
+              ]
+            }
+          ],
+          "important_differences": [
+            {
+              "text": "Patient product-change history is not yet known; this fictional case documents an explicit value.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "starting a new hand soap"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "text": "History was documented and a review arranged in the fictional encounter.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P2",
+                  "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+                }
+              ]
+            }
+          ],
+          "outcomes": [],
+          "passages": [
+            {
+              "passage_id": "SYN-A-P1",
+              "case_id": "SYN-A",
+              "text": "This fictional person reported itching on the hands for weeks. They reported starting a new hand soap before the symptoms began.",
+              "section": "Fictional narrative",
+              "locator": "team-authored fictional fixture/SYN-A-P1",
+              "sha256": "4341028c567b9cf32dad668404ad2d91f94eabd69ad343b2a26100064053f8be"
+            },
+            {
+              "passage_id": "SYN-A-P2",
+              "case_id": "SYN-A",
+              "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+              "section": "Fictional recorded action",
+              "locator": "team-authored fictional fixture/SYN-A-P2",
+              "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+            }
+          ],
+          "attribution": null
+        },
+        {
+          "case_id": "SYN-B",
+          "source_kind": "synthetic",
+          "title": "Fictional demonstration case — hand symptoms without a new product",
+          "article_url": null,
+          "shared_features": [
+            {
+              "text": "Shared reported site: hands.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "hands"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P1",
+                  "quote": "hands"
+                }
+              ]
+            },
+            {
+              "text": "Shared reported symptom: itching.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "itchy"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P1",
+                  "quote": "itching"
+                }
+              ]
+            }
+          ],
+          "important_differences": [
+            {
+              "text": "Patient product-change history is not yet known; this fictional case documents an explicit value.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P1",
+                  "quote": "no new products"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "text": "History was documented and a review arranged in the fictional encounter.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-B-P2",
+                  "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+                }
+              ]
+            }
+          ],
+          "outcomes": [],
+          "passages": [
+            {
+              "passage_id": "SYN-B-P1",
+              "case_id": "SYN-B",
+              "text": "This fictional person reported itching on the hands for weeks. They explicitly reported no new products before the symptoms began.",
+              "section": "Fictional narrative",
+              "locator": "team-authored fictional fixture/SYN-B-P1",
+              "sha256": "823e0555d4006554bd8ea554d96a915a73c1bce539ddb93fcbabf25448e271da"
+            },
+            {
+              "passage_id": "SYN-B-P2",
+              "case_id": "SYN-B",
+              "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+              "section": "Fictional recorded action",
+              "locator": "team-authored fictional fixture/SYN-B-P2",
+              "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+            }
+          ],
+          "attribution": null
+        }
+      ],
+      "excluded_cases": [
+        {
+          "case_id": "SYN-C",
+          "reason": "site_conflict",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T1",
+              "quote": "hands"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-C-P1",
+              "quote": "scalp"
+            }
+          ]
+        }
+      ],
+      "score_components": [
+        {
+          "case_id": "SYN-A",
+          "shared_site": 3,
+          "shared_symptom": 3,
+          "shared_duration": 1,
+          "shared_exposure": 0,
+          "total": 7
+        },
+        {
+          "case_id": "SYN-B",
+          "shared_site": 3,
+          "shared_symptom": 3,
+          "shared_duration": 1,
+          "shared_exposure": 0,
+          "total": 7
+        }
+      ],
+      "changes": [
+        {
+          "case_id": "SYN-A",
+          "change": "unchanged",
+          "from_rank": 1,
+          "to_rank": 1,
+          "reason": "Cream-name clarification does not change the eligible symptom/site comparison.",
+          "evidence": []
+        },
+        {
+          "case_id": "SYN-B",
+          "change": "unchanged",
+          "from_rank": 2,
+          "to_rank": 2,
+          "reason": "Cream-name clarification does not change the eligible symptom/site comparison.",
+          "evidence": []
+        }
+      ],
+      "no_match_reason": null,
+      "created_at": "2026-11-13T12:02:30Z"
+    },
+    {
+      "search_id": "SEARCH-3",
+      "patient_revision": 3,
+      "algorithm_version": "structured-v1",
+      "collection_version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+      "input_fact_ids": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "F6",
+        "F7"
+      ],
+      "ranked_case_ids": [
+        "SYN-A"
+      ],
+      "cards": [
+        {
+          "case_id": "SYN-A",
+          "source_kind": "synthetic",
+          "title": "Fictional demonstration case — hand symptoms and a new product",
+          "article_url": null,
+          "shared_features": [
+            {
+              "text": "Shared reported site: hands.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "hands"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "hands"
+                }
+              ]
+            },
+            {
+              "text": "Shared reported symptom: itching.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T1",
+                  "quote": "itchy"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "itching"
+                }
+              ]
+            },
+            {
+              "text": "Shared explicit new-product history.",
+              "evidence": [
+                {
+                  "source_type": "patient_turn",
+                  "source_id": "DEMO-T3",
+                  "quote": "started using a new hand soap"
+                },
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P1",
+                  "quote": "starting a new hand soap"
+                }
+              ]
+            }
+          ],
+          "important_differences": [],
+          "actions": [
+            {
+              "text": "History was documented and a review arranged in the fictional encounter.",
+              "evidence": [
+                {
+                  "source_type": "case_passage",
+                  "source_id": "SYN-A-P2",
+                  "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+                }
+              ]
+            }
+          ],
+          "outcomes": [],
+          "passages": [
+            {
+              "passage_id": "SYN-A-P1",
+              "case_id": "SYN-A",
+              "text": "This fictional person reported itching on the hands for weeks. They reported starting a new hand soap before the symptoms began.",
+              "section": "Fictional narrative",
+              "locator": "team-authored fictional fixture/SYN-A-P1",
+              "sha256": "4341028c567b9cf32dad668404ad2d91f94eabd69ad343b2a26100064053f8be"
+            },
+            {
+              "passage_id": "SYN-A-P2",
+              "case_id": "SYN-A",
+              "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+              "section": "Fictional recorded action",
+              "locator": "team-authored fictional fixture/SYN-A-P2",
+              "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+            }
+          ],
+          "attribution": null
+        }
+      ],
+      "excluded_cases": [
+        {
+          "case_id": "SYN-C",
+          "reason": "site_conflict",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T1",
+              "quote": "hands"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-C-P1",
+              "quote": "scalp"
+            }
+          ]
+        },
+        {
+          "case_id": "SYN-B",
+          "reason": "exposure_conflict",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T3",
+              "quote": "started using a new hand soap"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-B-P1",
+              "quote": "no new products"
+            }
+          ]
+        }
+      ],
+      "score_components": [
+        {
+          "case_id": "SYN-A",
+          "shared_site": 3,
+          "shared_symptom": 3,
+          "shared_duration": 1,
+          "shared_exposure": 2,
+          "total": 9
+        }
+      ],
+      "changes": [
+        {
+          "case_id": "SYN-A",
+          "change": "unchanged",
+          "from_rank": 1,
+          "to_rank": 1,
+          "reason": "Still eligible; explicit new-product history now adds a shared feature.",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T3",
+              "quote": "started using a new hand soap"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-A-P1",
+              "quote": "starting a new hand soap"
+            }
+          ]
+        },
+        {
+          "case_id": "SYN-B",
+          "change": "removed",
+          "from_rank": 2,
+          "to_rank": null,
+          "reason": "Explicit patient new-product history conflicts with this fictional case’s explicit no-new-product history.",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "DEMO-T3",
+              "quote": "started using a new hand soap"
+            },
+            {
+              "source_type": "case_passage",
+              "source_id": "SYN-B-P1",
+              "quote": "no new products"
+            }
+          ]
+        }
+      ],
+      "no_match_reason": null,
+      "created_at": "2026-11-13T12:03:30Z"
+    }
+  ],
+  "brief": {
+    "patient_revision": 3,
+    "summary_items": [
+      {
+        "text": "Patient reports itching on the hands.",
+        "status": "reported",
+        "evidence": [
+          {
+            "source_type": "patient_turn",
+            "source_id": "DEMO-T1",
+            "quote": "hands"
+          },
+          {
+            "source_type": "patient_turn",
+            "source_id": "DEMO-T1",
+            "quote": "itchy"
+          }
+        ]
+      }
+    ],
+    "timeline_items": [
+      {
+        "text": "Patient describes the duration as weeks.",
+        "status": "reported",
+        "evidence": [
+          {
+            "source_type": "patient_turn",
+            "source_id": "DEMO-T1",
+            "quote": "weeks"
+          }
+        ]
+      }
+    ],
+    "prior_treatment_items": [
+      {
+        "text": "Patient reports no improvement after an unnamed cream.",
+        "status": "reported",
+        "evidence": [
+          {
+            "source_type": "patient_turn",
+            "source_id": "DEMO-T1",
+            "quote": "I tried a cream, but it didn't help."
+          }
+        ]
+      }
+    ],
+    "unresolved_items": [
+      {
+        "text": "Cream name not provided.",
+        "status": "missing",
+        "evidence": []
+      }
+    ],
+    "doctor_clarifications": [
+      {
+        "text": "Clarify the reported prior cream and whether it is relevant to the assessment.",
+        "basis_fact_ids": [
+          "F4"
+        ],
+        "basis_case_ids": []
+      }
+    ]
+  },
+  "clinician_notes": [],
+  "warnings": [
+    "Fictional demonstration cases — not published evidence.",
+    "Fixture extraction and memory storage are demonstration modes."
+  ],
+  "modes": {
+    "storage": "memory",
+    "extractor": "fixture"
+  },
+  "collection": {
+    "collection_id": "synthetic-demo-v1",
+    "mode": "synthetic",
+    "version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+    "case_count": 3,
+    "source_review_count": 3,
+    "clinical_reviewed": false
+  }
+}

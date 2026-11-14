@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "EXTRACTION_UNAVAILABLE",
+    "message": "Extraction is not implemented yet. The S0 stub only replays the documented fictional demo phrases.",
+    "retryable": false
+  },
+  "request_id": "00000000-0000-4000-8000-000000000002"
+}

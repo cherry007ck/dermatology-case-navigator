@@ -1,0 +1,55 @@
+# Secrets and local environment files (examples are committed)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.secrets/
+
+# Local developer identity hint (never shared)
+.developer.local
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/
+coverage/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Logs and generated runtime output
+*.log
+logs/
+npm-debug.log*
+
+# Source downloads and local data caches (never commit raw article/dataset text)
+data/raw/
+data/downloads/
+data/cache/
+*.zip
+*.tar.gz
+*.jsonl.gz
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

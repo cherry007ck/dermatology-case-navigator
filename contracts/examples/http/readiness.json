@@ -1,0 +1,7 @@
+{
+  "storage": "memory",
+  "extractor": "fixture",
+  "collection_mode": "synthetic",
+  "loaded_cases": 3,
+  "ready": true
+}

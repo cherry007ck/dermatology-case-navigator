@@ -1,0 +1,250 @@
+{
+  "case_id": "PUB-PMC7861115-1",
+  "collection_id": "published-derm-v1",
+  "source_kind": "published",
+  "title": "A Case of Contact Allergic Dermatitis to Topical Minoxidil",
+  "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7861115/",
+  "article_identifiers": {
+    "pmid": "33564516",
+    "pmcid": "PMC7861115",
+    "doi": "10.7759/cureus.12510"
+  },
+  "source_version": "pmc-efetch-jats sha256:93569d27103c7114 retrieved 2026-11-13",
+  "license": "CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)",
+  "source_review": {
+    "status": "pending",
+    "reviewer": null,
+    "reviewed_at": null
+  },
+  "clinical_reviewed": false,
+  "passages": [
+    {
+      "passage_id": "PUB-PMC7861115-1-P1",
+      "case_id": "PUB-PMC7861115-1",
+      "text": "This is a case of a 27-year-old woman, not known to have any medical illnesses, who presented to our dermatology clinic with a painful swelling over the face for two days. Upon further inquiry, she used topical minoxidil 5% foam for FPHL applied once daily for four days prior to her presentation. After applying the foam, she reported itchiness over the scalp, and therefore, she stopped using it. Regardless, the itchiness continued, and she started to develop gradual swelling over the face.",
+      "section": "Case presentation",
+      "locator": "PMC7861115 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 0-494",
+      "sha256": "e45573e72a2c5559fe78a2ee9ce9ccf224b1ff9103c994c9474353528723de79"
+    },
+    {
+      "passage_id": "PUB-PMC7861115-1-P2",
+      "case_id": "PUB-PMC7861115-1",
+      "text": "She presented to the emergency department one day prior to her appointment in the dermatology clinic and was given intramuscular diphenhydramine 50mg and oral prednisone 30mg.",
+      "section": "Case presentation",
+      "locator": "PMC7861115 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 495-670",
+      "sha256": "e8d58bdefebad86c198c6631a4a2ef90e0cfc7573b8afcb7aef6141f059056fe"
+    },
+    {
+      "passage_id": "PUB-PMC7861115-1-P3",
+      "case_id": "PUB-PMC7861115-1",
+      "text": "The patient had previously been prescribed minoxidil 5% spray for FPHL, and she reported itchiness over the scalp. She was then advised to substitute it with minoxidil 5% foam (propylene glycol free) after which, she presented with her current complaint.",
+      "section": "Case presentation",
+      "locator": "PMC7861115 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 671-925",
+      "sha256": "c1eeac05382e66a7e464591ab083bfb46bb0f8310fcb9597d9295984753210cc"
+    },
+    {
+      "passage_id": "PUB-PMC7861115-1-P4",
+      "case_id": "PUB-PMC7861115-1",
+      "text": "A patch test was done with a minoxidil solution containing 5% minoxidil in alcohol, and the results were interpreted by an immunologist, which showed positive sensitization (Figure 1). A patch test to alcohol and propylene glycol showed no reaction. Consequently, she was advised to avoid topical minoxidil solution or foam as a treatment for her FPHL.",
+      "section": "Case presentation",
+      "locator": "PMC7861115 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 926-1278",
+      "sha256": "e04c38d0defc350152313faf0e3aec2e2342fee4f4da01ca1d818cac156cc21b"
+    }
+  ],
+  "features": [
+    {
+      "key": "symptom",
+      "value": "itching",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "itchiness over the scalp"
+        }
+      ]
+    },
+    {
+      "key": "symptom",
+      "value": "pain",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "painful swelling over the face"
+        }
+      ]
+    },
+    {
+      "key": "symptom",
+      "value": "swelling",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "painful swelling over the face"
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "value": "scalp",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "scalp"
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "value": "face",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "face"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "itching@scalp",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "itchiness over the scalp"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "pain@face",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "painful swelling over the face"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "swelling@face",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "painful swelling over the face"
+        }
+      ]
+    },
+    {
+      "key": "exposure",
+      "value": "topical_minoxidil_foam",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "she used topical minoxidil 5% foam for FPHL applied once daily for four days prior to her presentation"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "text": "Earlier, after scalp itchiness with minoxidil 5% spray, she was advised to substitute minoxidil 5% foam (propylene glycol free).",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P3",
+          "quote": "she reported itchiness over the scalp"
+        },
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P3",
+          "quote": "advised to substitute it with minoxidil 5% foam (propylene glycol free)"
+        }
+      ]
+    },
+    {
+      "text": "The patient stopped using the foam after scalp itchiness.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "she reported itchiness over the scalp, and therefore, she stopped using it"
+        }
+      ]
+    },
+    {
+      "text": "Emergency department: intramuscular diphenhydramine 50mg and oral prednisone 30mg.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P2",
+          "quote": "was given intramuscular diphenhydramine 50mg and oral prednisone 30mg"
+        }
+      ]
+    },
+    {
+      "text": "Patch testing: minoxidil 5% in alcohol reported as positive sensitization; alcohol and propylene glycol showed no reaction.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P4",
+          "quote": "which showed positive sensitization"
+        },
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P4",
+          "quote": "A patch test to alcohol and propylene glycol showed no reaction."
+        }
+      ]
+    },
+    {
+      "text": "Advised to avoid topical minoxidil solution or foam.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P4",
+          "quote": "she was advised to avoid topical minoxidil solution or foam"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "text": "After stopping the foam, the article reports the itchiness continued and facial swelling developed.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7861115-1-P1",
+          "quote": "Regardless, the itchiness continued, and she started to develop gradual swelling over the face."
+        }
+      ]
+    }
+  ],
+  "citation": {
+    "authors": [
+      "BinJadeed H",
+      "Almudimeegh AM",
+      "Alomran SA",
+      "Alshathry AH"
+    ],
+    "journal": "Cureus",
+    "year": "2021",
+    "license_name": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/"
+  }
+}

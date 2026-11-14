@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-labelledby="t">
+  <title id="t">Navy stethoscope</title>
+  <!-- Decorative illustration. One navy tube runs from the Y-junction to the chestpiece. -->
+  <defs>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4f6f8"/>
+      <stop offset="0.45" stop-color="#c3c9d0"/>
+      <stop offset="0.7" stop-color="#eef1f3"/>
+      <stop offset="1" stop-color="#8d949c"/>
+    </linearGradient>
+    <radialGradient id="disc" cx="0.42" cy="0.38" r="0.7">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#cfd4da"/>
+      <stop offset="1" stop-color="#8e959d"/>
+    </radialGradient>
+    <linearGradient id="rubber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3f45"/>
+      <stop offset="1" stop-color="#111316"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <!-- Soft floor shadows -->
+  <ellipse cx="500" cy="415" rx="110" ry="18" fill="#14232b" opacity="0.16" filter="url(#soft)"/>
+  <ellipse cx="190" cy="405" rx="150" ry="14" fill="#14232b" opacity="0.10" filter="url(#soft)"/>
+
+  <!-- Metal binaurals: ear tips down to the two short navy branches -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M412 62 C 350 20, 268 70, 286 158" stroke="#9aa1a9" stroke-width="8"/>
+    <path d="M412 62 C 350 20, 268 70, 286 158" stroke="#f2f4f6" stroke-width="2.5" opacity="0.9"/>
+    <path d="M492 104 C 446 52, 352 84, 346 166" stroke="#9aa1a9" stroke-width="8"/>
+    <path d="M492 104 C 446 52, 352 84, 346 166" stroke="#f2f4f6" stroke-width="2.5" opacity="0.9"/>
+  </g>
+
+  <!-- Ear tips -->
+  <g>
+    <rect x="398" y="40" width="30" height="40" rx="13" fill="url(#rubber)" transform="rotate(-38 413 60)"/>
+    <rect x="478" y="82" width="30" height="40" rx="13" fill="url(#rubber)" transform="rotate(-48 493 102)"/>
+    <ellipse cx="406" cy="52" rx="6" ry="4" fill="#5b6168" transform="rotate(-38 406 52)"/>
+    <ellipse cx="485" cy="94" rx="6" ry="4" fill="#5b6168" transform="rotate(-48 485 94)"/>
+  </g>
+
+  <!-- Navy Y: two short branches meeting at the junction -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M286 156 C 284 200, 300 232, 318 252" stroke="#1b375e" stroke-width="17"/>
+    <path d="M346 164 C 348 206, 336 234, 318 252" stroke="#1b375e" stroke-width="17"/>
+    <path d="M286 156 C 284 200, 300 232, 318 252" stroke="#4f7cb4" stroke-width="3.5" opacity="0.65"/>
+    <path d="M346 164 C 348 206, 336 234, 318 252" stroke="#4f7cb4" stroke-width="3.5" opacity="0.65"/>
+  </g>
+  <!-- Metal collars where binaurals enter the tubing -->
+  <rect x="277" y="148" width="18" height="12" rx="3" fill="url(#metal)"/>
+  <rect x="337" y="156" width="18" height="12" rx="3" fill="url(#metal)"/>
+
+  <!-- The single tube: Y-junction to chestpiece -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M318 254 C 300 300, 210 296, 140 290 C 64 284, 40 350, 92 384 C 150 420, 300 398, 438 372"
+          stroke="#1b375e" stroke-width="18"/>
+    <path d="M318 254 C 300 300, 210 296, 140 290 C 64 284, 40 350, 92 384 C 150 420, 300 398, 438 372"
+          stroke="#4f7cb4" stroke-width="4" opacity="0.6"/>
+  </g>
+  <!-- Junction sleeve -->
+  <ellipse cx="318" cy="254" rx="13" ry="10" fill="#1b375e"/>
+
+  <!-- Chestpiece: stem, diaphragm with black rim, bell on top -->
+  <path d="M432 364 L 458 360 L 460 378 L 434 382 Z" fill="url(#metal)" stroke="#7d848c" stroke-width="1"/>
+  <ellipse cx="520" cy="372" rx="78" ry="44" fill="#16191d"/>
+  <ellipse cx="520" cy="366" rx="74" ry="40" fill="#2a2f35"/>
+  <ellipse cx="520" cy="364" rx="66" ry="34" fill="url(#disc)"/>
+  <ellipse cx="520" cy="364" rx="50" ry="25" fill="none" stroke="#a8afb6" stroke-width="1.5" opacity="0.8"/>
+  <ellipse cx="514" cy="336" rx="42" ry="22" fill="#2a2f35"/>
+  <ellipse cx="514" cy="333" rx="38" ry="19" fill="url(#metal)"/>
+  <ellipse cx="514" cy="331" rx="24" ry="11" fill="url(#disc)" stroke="#9aa1a9" stroke-width="1"/>
+</svg>

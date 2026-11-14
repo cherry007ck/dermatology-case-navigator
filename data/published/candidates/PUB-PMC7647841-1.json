@@ -1,0 +1,310 @@
+{
+  "case_id": "PUB-PMC7647841-1",
+  "collection_id": "published-derm-v1",
+  "source_kind": "published",
+  "title": "Dyshidrotic Eczema: A Common Cause of Palmar Dermatitis",
+  "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7647841/",
+  "article_identifiers": {
+    "pmid": "33173645",
+    "pmcid": "PMC7647841",
+    "doi": "10.7759/cureus.10839"
+  },
+  "source_version": "pmc-efetch-jats sha256:ad71c0d95349503e retrieved 2026-11-13",
+  "license": "CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)",
+  "source_review": {
+    "status": "pending",
+    "reviewer": null,
+    "reviewed_at": null
+  },
+  "clinical_reviewed": false,
+  "passages": [
+    {
+      "passage_id": "PUB-PMC7647841-1-P1",
+      "case_id": "PUB-PMC7647841-1",
+      "text": "A 56-year-old man with no relevant past medical history presented to the hospital due to a rash found in his hands, forearms, and legs. He had been in his usual state of health until a few days prior to his presentation when he had started developing intensely pruritic vesicular lesions in the lateral aspect of his bilateral fingers.",
+      "section": "Case presentation",
+      "locator": "PMC7647841 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 0-335",
+      "sha256": "3c96017a6a197764b1a4eea39a1e6aee66ff3fa5f591f6460cbc54070ca6a797"
+    },
+    {
+      "passage_id": "PUB-PMC7647841-1-P2",
+      "case_id": "PUB-PMC7647841-1",
+      "text": "He denied any other symptoms such as fevers, chills, fatigue, rhinorrhea, sore throat, neck pain, chest pain, shortness of breath, nausea or vomiting, abdominal pain, diarrhea, or urinary discomfort.",
+      "section": "Case presentation",
+      "locator": "PMC7647841 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 410-609",
+      "sha256": "254e9ac71193fcdce0c742f9d8cfc513b017bde016c6aa7d8c9086478fbbce68"
+    },
+    {
+      "passage_id": "PUB-PMC7647841-1-P3",
+      "case_id": "PUB-PMC7647841-1",
+      "text": "Physical examination showed multiple vesicles and bullae located principally in the palmar aspect of the right hand with small vesicles in the lateral aspects of the left hand.",
+      "section": "Case presentation",
+      "locator": "PMC7647841 Case presentation, paragraph 1 (body paragraph 2 of the JATS full text), characters 762-938",
+      "sha256": "ee7134ab8038b5ff393048a732dd27fdac9f066e928fcc85178d2133aa108c7f"
+    },
+    {
+      "passage_id": "PUB-PMC7647841-1-P4",
+      "case_id": "PUB-PMC7647841-1",
+      "text": "He underwent a laboratory workup including complete blood count, chemistries, and inflammatory markers including erythrocyte sedimentation rate and C-reactive protein, which were all within normal limits. Further workup included a potassium hydroxide (KOH) preparation negative for fungal infection, and negative bacterial and viral cultures. A skin scraping with microscopy was performed, which was negative for scabies.",
+      "section": "Case presentation",
+      "locator": "PMC7647841 Case presentation, paragraph 2 (body paragraph 5 of the JATS full text), characters 65-486",
+      "sha256": "32be418b4cebf6212cc6f714e6bb57ea5804399cbeb08e193d103a148660ea5e"
+    },
+    {
+      "passage_id": "PUB-PMC7647841-1-P5",
+      "case_id": "PUB-PMC7647841-1",
+      "text": "The patient was treated with local care, which included the use of compresses and soaks with Burow’s solution. Drainage of the larger vesicles was also performed. Given the extensive lesions covering the bilateral hands, forearms, and legs, a short course of prednisone was recommended. Pruritus was treated effectively with diphenhydramine.",
+      "section": "Case presentation",
+      "locator": "PMC7647841 Case presentation, paragraph 2 (body paragraph 5 of the JATS full text), characters 630-971",
+      "sha256": "bd31d22ac754c36405417edca7cd124730315fa045f67e9c4b92145a95e64ef2"
+    },
+    {
+      "passage_id": "PUB-PMC7647841-1-P6",
+      "case_id": "PUB-PMC7647841-1",
+      "text": "The patient’s lesions improved significantly following the treatment.",
+      "section": "Case presentation",
+      "locator": "PMC7647841 Case presentation, paragraph 2 (body paragraph 5 of the JATS full text), characters 972-1041",
+      "sha256": "f1152f50dcf2b782af246f1a66621d86fafc55c103b51ab58a14a9467b488e12"
+    }
+  ],
+  "features": [
+    {
+      "key": "symptom",
+      "value": "rash",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "a rash found in his hands, forearms, and legs"
+        }
+      ]
+    },
+    {
+      "key": "symptom",
+      "value": "itching",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "intensely pruritic vesicular lesions"
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "value": "hands",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "hands"
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "value": "fingers",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "bilateral fingers"
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "value": "forearms",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "forearms"
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "value": "legs",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "legs"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "rash@hands",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "a rash found in his hands, forearms, and legs"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "rash@forearms",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "a rash found in his hands, forearms, and legs"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "rash@legs",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "a rash found in his hands, forearms, and legs"
+        }
+      ]
+    },
+    {
+      "key": "symptom_site",
+      "value": "itching@fingers",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "intensely pruritic vesicular lesions in the lateral aspect of his bilateral fingers"
+        }
+      ]
+    },
+    {
+      "key": "duration",
+      "value": "days",
+      "polarity": "affirmed",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P1",
+          "quote": "a few days prior to his presentation"
+        }
+      ]
+    },
+    {
+      "key": "additional_symptoms",
+      "value": "fever",
+      "polarity": "negated",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P2",
+          "quote": "denied any other symptoms such as fevers"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "text": "Reported workup: blood tests within normal limits; KOH preparation, bacterial and viral cultures, and skin scraping for scabies reported negative.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P4",
+          "quote": "which were all within normal limits"
+        },
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P4",
+          "quote": "potassium hydroxide (KOH) preparation negative for fungal infection"
+        },
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P4",
+          "quote": "negative bacterial and viral cultures"
+        },
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P4",
+          "quote": "negative for scabies"
+        }
+      ]
+    },
+    {
+      "text": "Local care with compresses and soaks with Burow’s solution; drainage of the larger vesicles.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P5",
+          "quote": "compresses and soaks with Burow’s solution"
+        },
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P5",
+          "quote": "Drainage of the larger vesicles was also performed"
+        }
+      ]
+    },
+    {
+      "text": "A short course of prednisone was recommended.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P5",
+          "quote": "a short course of prednisone was recommended"
+        }
+      ]
+    },
+    {
+      "text": "Diphenhydramine was used for pruritus.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P5",
+          "quote": "Pruritus was treated effectively with diphenhydramine"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "text": "The authors report pruritus was treated effectively with diphenhydramine.",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P5",
+          "quote": "Pruritus was treated effectively with diphenhydramine"
+        }
+      ]
+    },
+    {
+      "text": "The authors report the lesions improved significantly following the treatment (single case report; no comparison).",
+      "evidence": [
+        {
+          "source_type": "case_passage",
+          "source_id": "PUB-PMC7647841-1-P6",
+          "quote": "The patient’s lesions improved significantly following the treatment."
+        }
+      ]
+    }
+  ],
+  "citation": {
+    "authors": [
+      "Calle Sarmiento PM",
+      "Chango Azanza JJ"
+    ],
+    "journal": "Cureus",
+    "year": "2020",
+    "license_name": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/"
+  }
+}

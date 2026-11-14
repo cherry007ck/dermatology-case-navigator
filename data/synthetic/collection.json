@@ -1,0 +1,8 @@
+{
+  "collection_id": "synthetic-demo-v1",
+  "mode": "synthetic",
+  "version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+  "case_count": 3,
+  "source_review_count": 3,
+  "clinical_reviewed": false
+}

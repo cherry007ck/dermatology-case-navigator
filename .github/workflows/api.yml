@@ -1,0 +1,46 @@
+name: api
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: api-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: services/api
+    env:
+      # Memory storage + fixture extraction; no Exasol or provider credentials in CI.
+      APP_ENV: test
+      DATA_BACKEND: memory
+      EXTRACTOR_MODE: fixture
+      COLLECTION_MODE: synthetic
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: services/api/requirements.txt
+
+      - run: python -m pip install -r requirements.txt
+
+      - name: Planning-pack fixtures validate (schema, quotes, hashes)
+        run: python validate_pack.py
+        working-directory: .
+
+      - name: OpenAPI export has no drift
+        run: python -m scripts.export_openapi --check
+
+      - run: python -m pytest -q

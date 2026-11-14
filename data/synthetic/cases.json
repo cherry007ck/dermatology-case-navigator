@@ -1,0 +1,281 @@
+[
+  {
+    "case_id": "SYN-A",
+    "collection_id": "synthetic-demo-v1",
+    "source_kind": "synthetic",
+    "title": "Fictional demonstration case — hand symptoms and a new product",
+    "article_url": null,
+    "article_identifiers": {},
+    "source_version": "synthetic-v1",
+    "license": "team-authored-demo-fixture",
+    "source_review": {
+      "status": "fixture_checked",
+      "reviewer": "fixture-consistency-validator",
+      "reviewed_at": "2026-11-13T12:00:00Z"
+    },
+    "clinical_reviewed": false,
+    "passages": [
+      {
+        "passage_id": "SYN-A-P1",
+        "case_id": "SYN-A",
+        "text": "This fictional person reported itching on the hands for weeks. They reported starting a new hand soap before the symptoms began.",
+        "section": "Fictional narrative",
+        "locator": "team-authored fictional fixture/SYN-A-P1",
+        "sha256": "4341028c567b9cf32dad668404ad2d91f94eabd69ad343b2a26100064053f8be"
+      },
+      {
+        "passage_id": "SYN-A-P2",
+        "case_id": "SYN-A",
+        "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+        "section": "Fictional recorded action",
+        "locator": "team-authored fictional fixture/SYN-A-P2",
+        "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+      }
+    ],
+    "features": [
+      {
+        "key": "symptom",
+        "value": "itching",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-A-P1",
+            "quote": "itching"
+          }
+        ]
+      },
+      {
+        "key": "site",
+        "value": "hands",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-A-P1",
+            "quote": "hands"
+          }
+        ]
+      },
+      {
+        "key": "duration",
+        "value": "weeks",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-A-P1",
+            "quote": "weeks"
+          }
+        ]
+      },
+      {
+        "key": "exposure",
+        "value": "new_product",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-A-P1",
+            "quote": "starting a new hand soap"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "text": "History was documented and a review arranged in the fictional encounter.",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-A-P2",
+            "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+          }
+        ]
+      }
+    ],
+    "outcomes": []
+  },
+  {
+    "case_id": "SYN-B",
+    "collection_id": "synthetic-demo-v1",
+    "source_kind": "synthetic",
+    "title": "Fictional demonstration case — hand symptoms without a new product",
+    "article_url": null,
+    "article_identifiers": {},
+    "source_version": "synthetic-v1",
+    "license": "team-authored-demo-fixture",
+    "source_review": {
+      "status": "fixture_checked",
+      "reviewer": "fixture-consistency-validator",
+      "reviewed_at": "2026-11-13T12:00:00Z"
+    },
+    "clinical_reviewed": false,
+    "passages": [
+      {
+        "passage_id": "SYN-B-P1",
+        "case_id": "SYN-B",
+        "text": "This fictional person reported itching on the hands for weeks. They explicitly reported no new products before the symptoms began.",
+        "section": "Fictional narrative",
+        "locator": "team-authored fictional fixture/SYN-B-P1",
+        "sha256": "823e0555d4006554bd8ea554d96a915a73c1bce539ddb93fcbabf25448e271da"
+      },
+      {
+        "passage_id": "SYN-B-P2",
+        "case_id": "SYN-B",
+        "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+        "section": "Fictional recorded action",
+        "locator": "team-authored fictional fixture/SYN-B-P2",
+        "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+      }
+    ],
+    "features": [
+      {
+        "key": "symptom",
+        "value": "itching",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-B-P1",
+            "quote": "itching"
+          }
+        ]
+      },
+      {
+        "key": "site",
+        "value": "hands",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-B-P1",
+            "quote": "hands"
+          }
+        ]
+      },
+      {
+        "key": "duration",
+        "value": "weeks",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-B-P1",
+            "quote": "weeks"
+          }
+        ]
+      },
+      {
+        "key": "exposure",
+        "value": "no_new_product",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-B-P1",
+            "quote": "no new products"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "text": "History was documented and a review arranged in the fictional encounter.",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-B-P2",
+            "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+          }
+        ]
+      }
+    ],
+    "outcomes": []
+  },
+  {
+    "case_id": "SYN-C",
+    "collection_id": "synthetic-demo-v1",
+    "source_kind": "synthetic",
+    "title": "Fictional demonstration case — a different site and symptom",
+    "article_url": null,
+    "article_identifiers": {},
+    "source_version": "synthetic-v1",
+    "license": "team-authored-demo-fixture",
+    "source_review": {
+      "status": "fixture_checked",
+      "reviewer": "fixture-consistency-validator",
+      "reviewed_at": "2026-11-13T12:00:00Z"
+    },
+    "clinical_reviewed": false,
+    "passages": [
+      {
+        "passage_id": "SYN-C-P1",
+        "case_id": "SYN-C",
+        "text": "This fictional person reported burning on the scalp for days. No exposure history was supplied.",
+        "section": "Fictional narrative",
+        "locator": "team-authored fictional fixture/SYN-C-P1",
+        "sha256": "f558980fe9f30e3ab7fc6a85a69d8b1a132e6bab38c286ca469b10214af9bdc7"
+      },
+      {
+        "passage_id": "SYN-C-P2",
+        "case_id": "SYN-C",
+        "text": "In this fictional encounter, the clinician documented the history and arranged a review.",
+        "section": "Fictional recorded action",
+        "locator": "team-authored fictional fixture/SYN-C-P2",
+        "sha256": "d558422b7891925d50d7ba7c043e4ba1c064cde922ef5d5339ceba8c7ca22d21"
+      }
+    ],
+    "features": [
+      {
+        "key": "symptom",
+        "value": "burning",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-C-P1",
+            "quote": "burning"
+          }
+        ]
+      },
+      {
+        "key": "site",
+        "value": "scalp",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-C-P1",
+            "quote": "scalp"
+          }
+        ]
+      },
+      {
+        "key": "duration",
+        "value": "days",
+        "polarity": "affirmed",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-C-P1",
+            "quote": "days"
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "text": "History was documented and a review arranged in the fictional encounter.",
+        "evidence": [
+          {
+            "source_type": "case_passage",
+            "source_id": "SYN-C-P2",
+            "quote": "In this fictional encounter, the clinician documented the history and arranged a review."
+          }
+        ]
+      }
+    ],
+    "outcomes": []
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "note_id": "DEMO-NOTE-1",
+  "patient_revision": 3,
+  "note_text": "Fictional demo note: assessment recorded separately from patient statements.",
+  "author_label": "Demo clinician (fictional)",
+  "created_at": "2026-11-13T12:10:00Z"
+}

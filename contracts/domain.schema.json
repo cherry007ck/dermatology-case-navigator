@@ -1,0 +1,1286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:double-helix:domain:v1",
+  "title": "Dermatology Case Navigator domain v1",
+  "description": "Domain objects only; endpoint schemas are generated from FastAPI after bootstrap. Semantic/source validation is mandatory in addition to JSON validation.",
+  "$defs": {
+    "EvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "patient_turn",
+            "case_passage"
+          ]
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "source_type",
+        "source_id",
+        "quote"
+      ]
+    },
+    "SourceReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "reviewed",
+            "fixture_checked"
+          ]
+        },
+        "reviewer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "reviewer",
+        "reviewed_at"
+      ]
+    },
+    "Passage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "passage_id": {
+          "type": "string"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section": {
+          "type": "string"
+        },
+        "locator": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "passage_id",
+        "case_id",
+        "text",
+        "section",
+        "locator",
+        "sha256"
+      ]
+    },
+    "CaseFeature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "polarity": {
+          "type": "string",
+          "enum": [
+            "affirmed",
+            "negated"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "value",
+        "polarity",
+        "evidence"
+      ]
+    },
+    "SupportedStatement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "text",
+        "evidence"
+      ]
+    },
+    "ArticleCitation": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Bibliographic and licence metadata captured from the source article (PMC JATS XML). Published records only.",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "journal": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "license_name": {
+          "type": "string"
+        },
+        "license_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "authors",
+        "journal",
+        "year",
+        "license_name",
+        "license_url"
+      ]
+    },
+    "CaseRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "collection_id": {
+          "type": "string"
+        },
+        "source_kind": {
+          "type": "string",
+          "enum": [
+            "published",
+            "synthetic"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "article_url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "article_identifiers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "source_version": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "source_review": {
+          "$ref": "#/$defs/SourceReview"
+        },
+        "clinical_reviewed": {
+          "type": "boolean"
+        },
+        "passages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Passage"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CaseFeature"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SupportedStatement"
+          }
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SupportedStatement"
+          }
+        },
+        "citation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArticleCitation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "case_id",
+        "collection_id",
+        "source_kind",
+        "title",
+        "article_url",
+        "article_identifiers",
+        "source_version",
+        "license",
+        "source_review",
+        "clinical_reviewed",
+        "passages",
+        "features",
+        "actions",
+        "outcomes"
+      ]
+    },
+    "Collection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "collection_id": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "published",
+            "synthetic"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "case_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_review_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "clinical_reviewed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "collection_id",
+        "mode",
+        "version",
+        "case_count",
+        "source_review_count",
+        "clinical_reviewed"
+      ]
+    },
+    "PatientFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "negated",
+            "unknown",
+            "conflicting"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "fact_id",
+        "key",
+        "value",
+        "status",
+        "evidence"
+      ]
+    },
+    "TurnInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "turn_id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "patient",
+            "agent"
+          ]
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "typed",
+            "voice_transcript"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reply_to_question_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "turn_id",
+        "role",
+        "origin",
+        "text",
+        "reply_to_question_id"
+      ]
+    },
+    "Turn": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "turn_id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "patient",
+            "agent"
+          ]
+        },
+        "origin": {
+          "type": "string",
+          "enum": [
+            "typed",
+            "voice_transcript",
+            "correction"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reply_to_question_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "supersedes_turn_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "turn_id",
+        "role",
+        "origin",
+        "text",
+        "reply_to_question_id",
+        "supersedes_turn_id",
+        "sequence",
+        "created_at"
+      ]
+    },
+    "ComparisonBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contrasting_feature": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "case_ids",
+        "contrasting_feature",
+        "evidence"
+      ]
+    },
+    "Question": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question_id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "intake_gap",
+            "case_difference"
+          ]
+        },
+        "template_id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "asked",
+            "answered",
+            "unknown",
+            "skipped"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        },
+        "reason": {
+          "type": "string"
+        },
+        "comparison_basis": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComparisonBasis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "answer_turn_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "question_id",
+        "kind",
+        "template_id",
+        "text",
+        "status",
+        "evidence",
+        "reason",
+        "comparison_basis",
+        "answer_turn_ids"
+      ]
+    },
+    "CaseAttribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Attribution of a published case card; null on synthetic cards.",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "journal": {
+          "type": "string"
+        },
+        "year": {
+          "type": "string"
+        },
+        "doi": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pmid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pmcid": {
+          "type": "string"
+        },
+        "license_name": {
+          "type": "string"
+        },
+        "license_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "source_review_status": {
+          "type": "string",
+          "enum": [
+            "reviewed"
+          ]
+        },
+        "clinical_reviewed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "authors",
+        "journal",
+        "year",
+        "doi",
+        "pmid",
+        "pmcid",
+        "license_name",
+        "license_url",
+        "source_review_status",
+        "clinical_reviewed"
+      ]
+    },
+    "CaseCard": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "source_kind": {
+          "type": "string",
+          "enum": [
+            "published",
+            "synthetic"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "article_url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shared_features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SupportedStatement"
+          }
+        },
+        "important_differences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SupportedStatement"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SupportedStatement"
+          }
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SupportedStatement"
+          }
+        },
+        "passages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Passage"
+          }
+        },
+        "attribution": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CaseAttribution"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "case_id",
+        "source_kind",
+        "title",
+        "article_url",
+        "shared_features",
+        "important_differences",
+        "actions",
+        "outcomes",
+        "passages"
+      ]
+    },
+    "CaseChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "change": {
+          "type": "string",
+          "enum": [
+            "appeared",
+            "removed",
+            "moved",
+            "unchanged"
+          ]
+        },
+        "from_rank": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "to_rank": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "case_id",
+        "change",
+        "from_rank",
+        "to_rank",
+        "reason",
+        "evidence"
+      ]
+    },
+    "ExcludedCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "site_conflict",
+            "exposure_conflict",
+            "no_shared_symptom",
+            "no_shared_site",
+            "unreviewed_source",
+            "source_mode_mismatch",
+            "invalid_evidence"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "case_id",
+        "reason",
+        "evidence"
+      ]
+    },
+    "ScoreComponents": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "shared_site": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "shared_symptom": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "shared_duration": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "shared_exposure": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "case_id",
+        "shared_site",
+        "shared_symptom",
+        "shared_duration",
+        "shared_exposure",
+        "total"
+      ]
+    },
+    "SearchVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "search_id": {
+          "type": "string"
+        },
+        "patient_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "algorithm_version": {
+          "type": "string"
+        },
+        "collection_version": {
+          "type": "string"
+        },
+        "input_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ranked_case_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CaseCard"
+          }
+        },
+        "excluded_cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExcludedCase"
+          }
+        },
+        "score_components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ScoreComponents"
+          }
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CaseChange"
+          }
+        },
+        "no_match_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "insufficient_information",
+                "conflicting_details",
+                "no_comparable_cases"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "search_id",
+        "patient_revision",
+        "algorithm_version",
+        "collection_version",
+        "input_fact_ids",
+        "ranked_case_ids",
+        "cards",
+        "excluded_cases",
+        "score_components",
+        "changes",
+        "no_match_reason",
+        "created_at"
+      ]
+    },
+    "BriefItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "missing",
+            "conflicting"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          }
+        }
+      },
+      "required": [
+        "text",
+        "status",
+        "evidence"
+      ]
+    },
+    "DoctorClarification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "basis_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "basis_case_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "text",
+        "basis_fact_ids",
+        "basis_case_ids"
+      ]
+    },
+    "Brief": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "patient_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "summary_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BriefItem"
+          }
+        },
+        "timeline_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BriefItem"
+          }
+        },
+        "prior_treatment_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BriefItem"
+          }
+        },
+        "unresolved_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BriefItem"
+          }
+        },
+        "doctor_clarifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DoctorClarification"
+          }
+        }
+      },
+      "required": [
+        "patient_revision",
+        "summary_items",
+        "timeline_items",
+        "prior_treatment_items",
+        "unresolved_items",
+        "doctor_clarifications"
+      ]
+    },
+    "ClinicianNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "note_id": {
+          "type": "string"
+        },
+        "patient_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "note_text": {
+          "type": "string"
+        },
+        "author_label": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "note_id",
+        "patient_revision",
+        "note_text",
+        "author_label",
+        "created_at"
+      ]
+    },
+    "Modes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "storage": {
+          "type": "string",
+          "enum": [
+            "memory",
+            "exasol"
+          ]
+        },
+        "extractor": {
+          "type": "string",
+          "enum": [
+            "fixture",
+            "meta"
+          ]
+        }
+      },
+      "required": [
+        "storage",
+        "extractor"
+      ]
+    },
+    "SessionSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "intake",
+            "awaiting_answer",
+            "ready_to_confirm",
+            "confirmed"
+          ]
+        },
+        "confirmed_revision": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "turns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Turn"
+          }
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PatientFact"
+          }
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Question"
+          }
+        },
+        "search_history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SearchVersion"
+          }
+        },
+        "brief": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Brief"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clinician_notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ClinicianNote"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "modes": {
+          "$ref": "#/$defs/Modes"
+        },
+        "collection": {
+          "$ref": "#/$defs/Collection"
+        }
+      },
+      "required": [
+        "session_id",
+        "revision",
+        "state",
+        "confirmed_revision",
+        "turns",
+        "facts",
+        "questions",
+        "search_history",
+        "brief",
+        "clinician_notes",
+        "warnings",
+        "modes",
+        "collection"
+      ]
+    },
+    "AdvanceResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "snapshot": {
+          "$ref": "#/$defs/SessionSnapshot"
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "ask",
+            "ready_to_confirm",
+            "waiting_for_transcript"
+          ]
+        },
+        "question": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Question"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "snapshot",
+        "action",
+        "question"
+      ]
+    },
+    "VoiceAdvanceResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "ask",
+            "ready_to_confirm",
+            "waiting_for_transcript"
+          ]
+        },
+        "question_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "question_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "spoken_message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "question_id",
+        "question_text",
+        "spoken_message"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/CaseRecord"
+    },
+    {
+      "$ref": "#/$defs/SessionSnapshot"
+    },
+    {
+      "$ref": "#/$defs/AdvanceResult"
+    },
+    {
+      "$ref": "#/$defs/VoiceAdvanceResult"
+    }
+  ]
+}

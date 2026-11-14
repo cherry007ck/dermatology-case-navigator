@@ -1,0 +1,156 @@
+{
+  "snapshot": {
+    "session_id": "NO-SESSION",
+    "revision": 1,
+    "state": "ready_to_confirm",
+    "confirmed_revision": null,
+    "turns": [
+      {
+        "turn_id": "NO-T1",
+        "role": "patient",
+        "origin": "typed",
+        "text": "My scalp feels uncomfortable. I don't know when it began.",
+        "reply_to_question_id": null,
+        "supersedes_turn_id": null,
+        "sequence": 1,
+        "created_at": "2026-11-13T12:05:00Z"
+      }
+    ],
+    "facts": [
+      {
+        "fact_id": "NO-F1",
+        "key": "site",
+        "value": "scalp",
+        "status": "reported",
+        "evidence": [
+          {
+            "source_type": "patient_turn",
+            "source_id": "NO-T1",
+            "quote": "scalp"
+          }
+        ]
+      },
+      {
+        "fact_id": "NO-F2",
+        "key": "symptom",
+        "value": "discomfort",
+        "status": "reported",
+        "evidence": [
+          {
+            "source_type": "patient_turn",
+            "source_id": "NO-T1",
+            "quote": "uncomfortable"
+          }
+        ]
+      },
+      {
+        "fact_id": "NO-F3",
+        "key": "duration",
+        "value": null,
+        "status": "unknown",
+        "evidence": [
+          {
+            "source_type": "patient_turn",
+            "source_id": "NO-T1",
+            "quote": "don't know when it began"
+          }
+        ]
+      }
+    ],
+    "questions": [],
+    "search_history": [
+      {
+        "search_id": "NO-S1",
+        "patient_revision": 1,
+        "algorithm_version": "structured-v1",
+        "collection_version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+        "input_fact_ids": [
+          "NO-F1",
+          "NO-F2",
+          "NO-F3"
+        ],
+        "ranked_case_ids": [],
+        "cards": [],
+        "excluded_cases": [
+          {
+            "case_id": "SYN-A",
+            "reason": "site_conflict",
+            "evidence": []
+          },
+          {
+            "case_id": "SYN-B",
+            "reason": "site_conflict",
+            "evidence": []
+          },
+          {
+            "case_id": "SYN-C",
+            "reason": "no_shared_symptom",
+            "evidence": []
+          }
+        ],
+        "score_components": [],
+        "changes": [],
+        "no_match_reason": "no_comparable_cases",
+        "created_at": "2026-11-13T12:05:30Z"
+      }
+    ],
+    "brief": {
+      "patient_revision": 1,
+      "summary_items": [
+        {
+          "text": "Patient reports scalp discomfort.",
+          "status": "reported",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "NO-T1",
+              "quote": "My scalp feels uncomfortable."
+            }
+          ]
+        }
+      ],
+      "timeline_items": [],
+      "prior_treatment_items": [],
+      "unresolved_items": [
+        {
+          "text": "Onset is unknown.",
+          "status": "reported",
+          "evidence": [
+            {
+              "source_type": "patient_turn",
+              "source_id": "NO-T1",
+              "quote": "don't know when it began"
+            }
+          ]
+        }
+      ],
+      "doctor_clarifications": [
+        {
+          "text": "Clarify the symptom during clinical assessment.",
+          "basis_fact_ids": [
+            "NO-F2"
+          ],
+          "basis_case_ids": []
+        }
+      ]
+    },
+    "clinician_notes": [],
+    "warnings": [
+      "Fictional demonstration cases — not published evidence."
+    ],
+    "modes": {
+      "storage": "memory",
+      "extractor": "fixture"
+    },
+    "collection": {
+      "collection_id": "synthetic-demo-v1",
+      "mode": "synthetic",
+      "version": "858f8867b3cd72707e0496691fdb5646c283d606f5794bcc0fdaa8274325fb6f",
+      "case_count": 3,
+      "source_review_count": 3,
+      "clinical_reviewed": false
+    }
+  },
+  "action": "ready_to_confirm",
+  "question": null
+}
